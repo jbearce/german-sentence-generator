@@ -22,10 +22,7 @@ int main() {
     vector<vector<string>> germanPrepositions = get_matches(germanWordList, "preposition", 1);
     remove_invalid_entries(germanPrepositions, gPrepRowSize, invalidRowCount);
 
-    sentence germanSentence { germanNouns, germanVerbs, germanAdjectives, germanPrepositions };
-    string input;
-
-    cout << "Input data had " << invalidRowCount << " invalid entries." << endl;
+    cout << "German data imported. Input data had " << invalidRowCount << " invalid entries." << endl;
     cout << "nouns are: " << endl;
     print_string_vector_vector(germanNouns);
     cout << "verbs are: " << endl;
@@ -35,6 +32,40 @@ int main() {
     cout << "prepositions are: " << endl;
     print_string_vector_vector(germanPrepositions);
 
+    //english data import/modificaiton below: 
+    string englishFileLocation = "data_files/english_list.csv";
+    vector<vector<string>> englishWordList = import_file(englishFileLocation);
+    invalidRowCount = 0;
+    int eNounRowSize = 4;
+    int eVerbRowSize = 9;
+    int eAdjRowSize = 2;
+    int ePrepRowSize = 3;
+
+     //divide import vectors into word types
+    vector<vector<string>> englishNouns = get_matches(englishWordList, "noun", 1);
+    remove_invalid_entries(englishNouns, eNounRowSize, invalidRowCount);
+    vector<vector<string>> englishVerbs = get_matches(englishWordList, "verb", 1);
+    remove_invalid_entries(englishVerbs, eVerbRowSize, invalidRowCount);
+    vector<vector<string>> englishAdjectives = get_matches(englishWordList, "adjective", 1);
+    remove_invalid_entries(englishAdjectives, eAdjRowSize, invalidRowCount);
+    vector<vector<string>> englishPrepositions = get_matches(englishWordList, "preposition", 1);
+    remove_invalid_entries(englishPrepositions, ePrepRowSize, invalidRowCount);
+
+    //store it all in a single object
+    sentence mySentence { germanNouns, germanVerbs, germanAdjectives, germanPrepositions, 
+                          englishNouns, englishVerbs, englishAdjectives, englishPrepositions };
+    string input;
+
+    cout << "English data imported. Input data had " << invalidRowCount << " invalid entries." << endl;
+    cout << "nouns are: " << endl;
+    print_string_vector_vector(englishNouns);
+    cout << "verbs are: " << endl;
+    print_string_vector_vector(englishVerbs);
+    cout << "adjectives are: " << endl;
+    print_string_vector_vector(englishAdjectives);
+    cout << "prepositions are: " << endl;
+    print_string_vector_vector(englishPrepositions);
+
     while (input != "no" && input != "n") {
         cout << "Generate sentence?" << endl;
         cin >> input;
@@ -43,8 +74,9 @@ int main() {
             cout << "Invalid input: y|n" << endl;
         }
         if (input == "y" || input == "yes") {
-            germanSentence.generate();
-            germanSentence.output();
+            mySentence.generate();
+            mySentence.output(0);
+            mySentence.output(1);
         }
     }
     return 0;
