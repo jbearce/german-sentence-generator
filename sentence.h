@@ -3,6 +3,7 @@ using namespace std;
 //repackage words into a class `sentence`
 class sentence {
     private:
+    
         vector<vector<string>> gNouns;
         vector<vector<string>> gVerbs;
         vector<vector<string>> gAdjectives;
@@ -45,7 +46,7 @@ class sentence {
         }
         bool is_pronoun (string &input) {
             bool output = false;
-            if (input == "ich" || input == "du" || input == "er" || input == "sie" || input == "es" || input == "wir" || input == "ihr" || input == "Sie") {
+            if ("ich" == input || "du" == input || "er" == input || "sie" == input || "es" == input || "wir" == input || "ihr" == input || "Sie" == input) {
                 output = true;
             }
             return output;
@@ -226,6 +227,7 @@ class sentence {
             }
             return output;
         }
+
     public:
     
         sentence(   
@@ -248,6 +250,7 @@ class sentence {
             eAdjectives = inputEAdjectives;
             ePrepositions = inputEPrepositions;        
         }
+
         ~sentence() {}
 
         // Generates a sentence that can then be displayed/used with other functions.

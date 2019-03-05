@@ -1,5 +1,6 @@
 #include "import_functions.h"
 using namespace std;
+
 /****************************************************\
  * Functions. Details found in import_functions.h
 \* **************************************************/
@@ -48,7 +49,7 @@ vector<vector<string>> get_matches(vector<vector<string>> &input, string matchVa
     vector<vector<string>> output;
     int loopSize = input.size();
     for(int i = 0; i < loopSize; ++i) {
-        if (input[i][matchPos] == matchVal) {
+        if (matchVal == input[i][matchPos]) {
             output.push_back(input[i]);
         }
     }
@@ -71,7 +72,7 @@ void print_string_vector_vector (vector<vector<string>> &input) {
 
 void remove_invalid_entries(vector<vector<string>> &input, int expectedEntrySize, int &invalidEntryCount) {
     int loopSize = input.size();
-    for(int i = 0; i < loopSize; i++) {
+    for(int i = 0; i < loopSize; ++i) {
         if ((expectedEntrySize +1) != input[i].size()) {
             input.erase(input.begin() + i);
             invalidEntryCount++;
