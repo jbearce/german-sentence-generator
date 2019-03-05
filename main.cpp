@@ -66,14 +66,14 @@ int main() {
     cout << "prepositions are: " << endl;
     print_string_vector_vector(englishPrepositions);
 
-    while (input != "no" && input != "n") {
+    while ("n" != input) {
         cout << "Generate sentence?" << endl;
         cin >> input;
-        if (input == "no" || input == "n" || input == "y" || input == "yes") {
+        if ("y" == input || "n" == input) {
         } else {
             cout << "Invalid input: y|n" << endl;
         }
-        if (input == "y" || input == "yes") {
+        if ("y" == input) {
             mySentence.generate();
             mySentence.output(0);
             mySentence.output(1);

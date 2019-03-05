@@ -1,33 +1,8 @@
+using namespace std;
 
 /**********************\
  * Function Prototypes
 \**********************/
-#ifndef CONSOLE
-#define CONSOLE
-#include <iostream>
-#include <iomanip>
-#include <fstream>
-#endif
-
-#ifndef VECTOR
-#define VECTOR
-#include <vector>
-#endif
-
-#ifndef RANDOM
-#define RANDOM
-#include <time.h>
-#include <random>
-#endif
-
-#ifndef STRING
-#define STRING
-#include <string>
-#include <ctype.h>
-#endif
-
-using namespace std;
-
 // strips spaces on the beginning/end of the input string, but not encapsulated spaces
 string strip_spaces(string&);
 
@@ -54,90 +29,3 @@ void print_string_vector_vector (vector<vector<string>>&);
 // but aren't due to garbage data.
 // Inputs: vector<vector<string>> input vector, int numRows (0-based), int removedRows
 void remove_invalid_entries(vector<vector<string>>&, int, int&);
-
-string strip_spaces(string &input) {
-    string outputString;
-    int inputSize = input.length();
-    for (int i = 0; i < inputSize; i++) {
-        //if the scrutinized character is not a space, or is both preceded by a non-space and followed by a non-space
-        if ( input[i] != ' ' || ( (i > 0 && input[i-1] != ' ') && (i < inputSize -1 && input[i+1] != ' ') ) )
-            outputString += input[i]; //add it to the output
-    }
-    return outputString;
-}
-
-void remove_invalid_entries(vector<vector<string>> &input, int expectedEntrySize, int &invalidEntryCount) {
-    int loopSize = input.size();
-    for(int i = 0; i < loopSize; i++) {
-        if (input[i].size() != (expectedEntrySize +1)) {
-            input.erase(input.begin() + i);
-            invalidEntryCount++;
-        }
-    }
-}
-
-/**********************\
- * Functions
-\* ********************/
-vector<string> generate_array(string &input, char delimeter) {
-    vector<string> output;
-    string cell;
-    int loopSize = input.length();
-    for(int i = 0; i < loopSize; i++) {
-        if (input[i] == delimeter) {
-            output.push_back(strip_spaces(cell));
-            cell = "";
-        } else {
-            cell += input[i];
-        }
-    }
-    return output;
-}
-
-vector<vector<string>> import_file(string &input) {
-    vector<vector<string>> output;
-    ifstream inputFile(input);
-    string line;
-    if (inputFile.is_open() == true) {
-        while (getline(inputFile, line)) {
-            output.push_back(generate_array(line, ','));
-        }
-        inputFile.close();
-    } else {
-        cout << "Error: file " << input << " could not be opened or does not exist." << endl;
-    }
-    return output;
-}
-
-vector<vector<string>> get_matches(vector<vector<string>> &input, string matchVal, int matchPos) {
-    vector<vector<string>> output;
-    int loopSize = input.size();
-    for(int i = 0; i < loopSize; i++) {
-        if (input[i][matchPos] == matchVal) {
-            output.push_back(input[i]);
-        }
-    }
-    return output;
-}
-
-void print_string_vector_vector (vector<vector<string>> &input) {
-    int loopSize = input.size();
-    for(int i = 0; i < loopSize; i++) {
-        int innerLoopSize = input[i].size();
-        for(int j = 0; j < innerLoopSize; j++) {
-            cout << input[i][j];
-            if (j < (innerLoopSize -1)) {
-                cout << ", ";
-            }
-        }
-        cout << endl;
-    }
-}
-
-void print_string_vector (vector<string> &input) {
-    int loopSize = input.size();
-    for (int i = 0; i < loopSize; i++) {
-        cout << input[i];
-    }
-    cout << endl;
-}

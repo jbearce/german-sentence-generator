@@ -1,29 +1,12 @@
-#ifndef CONSOLE
-#define CONSOLE
+#include <ctype.h>
+#include <fstream>
 #include <iostream>
 #include <iomanip>
-#include <fstream>
-#endif
-
-#ifndef VECTOR
-#define VECTOR
-#include <vector>
-#endif
-
-#ifndef RANDOM
-#define RANDOM
-#include <time.h>
 #include <random>
-#endif
-
-#ifndef STRING
-#define STRING
 #include <string>
-#include <ctype.h>
-#endif
+#include <time.h>
+#include <vector>
 
-#include "import_functions.h"
-#include "sentence.h"
-
-using namespace std;
+#include "import_functions.cpp"
+#include "sentence.cpp"
 

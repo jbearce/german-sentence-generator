@@ -1,27 +1,3 @@
-#ifndef CONSOLE
-#define CONSOLE
-#include <iostream>
-#include <iomanip>
-#include <fstream>
-#endif
-
-#ifndef VECTOR
-#define VECTOR
-#include <vector>
-#endif
-
-#ifndef RANDOM
-#define RANDOM
-#include <time.h>
-#include <random>
-#endif
-
-#ifndef STRING
-#define STRING
-#include <string>
-#include <ctype.h>
-#endif
-
 using namespace std;
 
 //repackage words into a class `sentence`
@@ -81,111 +57,107 @@ class sentence {
         string get_adjective_case (vector<string> &input, string &gender, string wordCase, bool plural, int language) {
             if (language == 0) {
                 string suffix = "";
-                if (gender == "der") {
-                    if (wordCase == "nominative" || wordCase == "nominativ") {
+
+                if ("der" == gender) {
+                    if ("nominative" == wordCase || "nominativ" == wordCase) {
                         suffix = "e";
-                    } else if (wordCase == "accusative" || wordCase == "akkusativ") {
+                    } else if ("accusative" == wordCase || "akkusativ" == wordCase) {
                         suffix = "en";
-                    } else if (wordCase == "dative" || wordCase == "dativ") {
+                    } else if ("dative" == wordCase || "dativ" == wordCase) {
+                        suffix = "en";
+                    } else if ("genetive" == wordCase || "genetiv" == wordCase) {
                         suffix = "en";
                     }
-                    else if (wordCase == "genetive" || wordCase == "genetiv") {
-                        suffix = "en";
-                    }
-                } else if (gender == "die" && plural == false) {
-                    if (wordCase == "nominative" || wordCase == "nominativ") {
+                } else if ("die" == gender && false == plural) {
+                    if ("nominative" == wordCase || "nominativ" == wordCase) {
                         suffix = "e";
-                    } else if (wordCase == "accusative" || wordCase == "akkusativ") {
+                    } else if ("accusative" == wordCase || "akkusativ" == wordCase) {
                         suffix = "e";
-                    } else if (wordCase == "dative" || wordCase == "dativ") {
+                    } else if ("dative" == wordCase || "dativ" == wordCase) {
                         suffix = "en";
                     }
-                    else if (wordCase == "genetive" || wordCase == "genetiv") {
+                    else if ("genetive" == wordCase || "genetiv" == wordCase) {
                         suffix = "en";
                     }
-                }
-                else if (gender == "das") {
-                    if (wordCase == "nominative" || wordCase == "nominativ") {
+                } else if ("das" == gender) {
+                    if ("nominative" == wordCase || "nominativ" == wordCase) {
                         suffix = "e";
-                    } else if (wordCase == "accusative" || wordCase == "akkusativ") {
+                    } else if ("accusative" == wordCase || "akkusativ" == wordCase) {
                         suffix = "e";
-                    } else if (wordCase == "dative" || wordCase == "dativ") {
+                    } else if ("dative" == wordCase || "dativ" == wordCase) {
+                        suffix = "en";
+                    } else if ("genetive" == wordCase || "genetiv" == wordCase) {
                         suffix = "en";
                     }
-                    else if (wordCase == "genetive" || wordCase == "genetiv") {
+                } else if ("die" == gender && true == plural) {
+                    if ("nominative" == wordCase || "nominativ" == wordCase) {
                         suffix = "en";
-                    }
-                } else if (gender == "die" && plural == true) {
-                    if (wordCase == "nominative" || wordCase == "nominativ") {
+                    } else if ("accusative" == wordCase || "akkusativ" == wordCase) {
                         suffix = "en";
-                    } else if (wordCase == "accusative" || wordCase == "akkusativ") {
+                    } else if ("dative" == wordCase || "dativ" == wordCase) {
                         suffix = "en";
-                    } else if (wordCase == "dative" || wordCase == "dativ") {
-                        suffix = "en";
-                    }
-                    else if (wordCase == "genetive" || wordCase == "genetiv") {
+                    } else if ("genetive" == wordCase || "genetiv" == wordCase) {
                         suffix = "en";
                     }
                 }
                 string output = input[2] + suffix;
                 return output;
-            } else if (language == 1) {
-                if (plural == false) {
+            } else if (1 == language) {
+                if (false == plural) {
                     return input[2];
-                } else if (plural == true) {
+                } else if (true == plural) {
                     return input[3];
                 }
-            }  
-            
+            }
             return "REDACTED";
         }
 
         string get_the_conjugation(string &gender, string wordCase, bool plural, int language) {
             if (language == 0) {
                 string theConjugation = "der";
-                if (gender == "der") {
-                    if (wordCase == "nominative" || wordCase == "nominativ") {
+                if ("der" == gender) {
+                    if ("nominative" == wordCase || "nominativ" == wordCase) {
                         theConjugation = "der";
-                    } else if (wordCase == "accusative" || wordCase == "akkusativ") {
+                    } else if ("accusative" == wordCase || "akkusativ" == wordCase) {
                         theConjugation = "den";
-                    } else if (wordCase == "dative" || wordCase == "dativ") {
+                    } else if ("dative" == wordCase || "dativ" == wordCase) {
                         theConjugation = "dem";
                     }
-                    else if (wordCase == "genetive" || wordCase == "genetiv") {
+                    else if ("genetive" == wordCase || "genetiv" == wordCase) {
                         theConjugation = "des";
                     }
-                } else if (gender == "die" && plural == false) {
-                    if (wordCase == "nominative" || wordCase == "nominativ") {
+                } else if ("die" == gender && false == plural) {
+                    if ("nominative" == wordCase || "nominativ" == wordCase) {
                         theConjugation = "die";
-                    } else if (wordCase == "accusative" || wordCase == "akkusativ") {
+                    } else if ("accusative" == wordCase || "akkusativ" == wordCase) {
                         theConjugation = "die";
-                    } else if (wordCase == "dative" || wordCase == "dativ") {
+                    } else if ("dative" == wordCase || "dativ" == wordCase) {
                         theConjugation = "der";
                     }
-                    else if (wordCase == "genetive" || wordCase == "genetiv") {
+                    else if ("genetive" == wordCase || "genetiv" == wordCase) {
                         theConjugation = "der";
                     }
                 }
-                else if (gender == "das") {
-                    if (wordCase == "nominative" || wordCase == "nominativ") {
+                else if ("das" == gender) {
+                    if ("nominative" == wordCase || "nominativ" == wordCase) {
                         theConjugation = "das";
-                    } else if (wordCase == "accusative" || wordCase == "akkusativ") {
+                    } else if ("accusative" == wordCase || "akkusativ" == wordCase) {
                         theConjugation = "das";
-                    } else if (wordCase == "dative" || wordCase == "dativ") {
+                    } else if ("dative" == wordCase || "dativ" == wordCase) {
                         theConjugation = "dem";
                     }
-                    else if (wordCase == "genetive" || wordCase == "genetiv") {
+                    else if ("genetive" == wordCase || "genetiv" == wordCase) {
                         theConjugation = "des";
                     }
-                } else if (gender == "die" && plural == true) {
-                    if (wordCase == "nominative" || wordCase == "nominativ") {
+                } else if ("die" == gender && true == plural) {
+                    if ("nominative" == wordCase || "nominativ" == wordCase) {
                         theConjugation = "die";
-                    } else if (wordCase == "accusative" || wordCase == "akkusativ") {
+                    } else if ("accusative" == wordCase || "akkusativ" == wordCase) {
                         theConjugation = "die";
-                    } else if (wordCase == "dative" || wordCase == "dativ") {
+                    } else if ("dative" == wordCase || "dativ" == wordCase) {
                         theConjugation = "den";
                     }
-                    else if (wordCase == "genetive" || wordCase == "genetiv") {
+                    else if ("genetive" == wordCase || "genetiv" == wordCase) {
                         theConjugation = "der";
                     }
                 }
@@ -231,11 +203,12 @@ class sentence {
         // eg: "The, big, dog, chased, the, yellow, cat.";
         vector<string> sentence_case (vector<string> &input, string punctuation) {
             vector<string> cleanSentence;
-            for(int i = 0; i < input.size(); i++) {
+            int inputSize = input.size();
+            for(int i = 0; i < inputSize; ++i) {
                 string formattedOutput = input[i];
-                if (i == 0) {
+                if (0 == i) {
                     formattedOutput[0] = toupper(formattedOutput[0]);
-                } else if (i == (input.size() - 1)) {
+                } else if ((inputSize - 1) == i) {
                     formattedOutput += punctuation;
                 }
                 cleanSentence.push_back(formattedOutput);
@@ -246,7 +219,7 @@ class sentence {
         vector<string> get_match (vector<string> &inValue, vector<vector<string>> &searchRange, int searchCol) {
             vector<string> output;
             int loopRange = searchRange.size();
-            for(int i = 0; i < loopRange; i++) {
+            for(int i = 0; i < loopRange; ++i) {
                 if (searchRange[i][searchCol] == inValue[searchCol]) {
                     return searchRange[i];
                 }
@@ -317,14 +290,15 @@ class sentence {
         // input: vector<string> sentenceList -- input a {lang}SentenceList
         void output(int language) {
             vector<string>sentenceList;
-            if (language == 0) {
+            if (0 == language) {
                 sentenceList = germanSentenceList;
-            } else if (language == 1) {
+            } else if (1 == language) {
                 sentenceList = englishSentenceList;
             } 
 
             vector<string> cleanSentenceList = sentence_case(sentenceList, ".");
-            for(int i = 0; i < cleanSentenceList.size(); i++) {
+            int cleanSentenceListSize = cleanSentenceList.size();
+            for(int i = 0; i < cleanSentenceListSize; ++i) {
                 cout << cleanSentenceList[i] << " ";
             }
             cout << endl;
