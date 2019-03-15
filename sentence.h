@@ -165,6 +165,8 @@ class sentence {
                 return theConjugation;
             } else if (language == 1) {
                 return "the";
+            } else {
+                return "";
             }
            
         }
@@ -230,25 +232,16 @@ class sentence {
 
     public:
     
-        sentence(   
-            vector<vector<string>> &inputGNouns, 
-            vector<vector<string>> &inputGVerbs, 
-            vector<vector<string>> &inputGAdjectives,
-            vector<vector<string>> &inputGPrepositions,
-            vector<vector<string>> &inputENouns,
-            vector<vector<string>> &inputEVerbs,
-            vector<vector<string>> &inputEAdjectives,
-            vector<vector<string>> &inputEPrepositions
-        ) {
-            gNouns = inputGNouns;
-            gVerbs = inputGVerbs;
-            gAdjectives = inputGAdjectives;
-            gPrepositions = inputGPrepositions;
+        sentence(language germanImport, language englishImport) {
+            gNouns = germanImport.nouns;
+            gVerbs = germanImport.verbs;
+            gAdjectives = germanImport.adjectives;
+            gPrepositions = germanImport.prepositions;
             
-            eNouns = inputENouns;
-            eVerbs = inputEVerbs;
-            eAdjectives = inputEAdjectives;
-            ePrepositions = inputEPrepositions;        
+            eNouns = englishImport.nouns;
+            eVerbs = englishImport.verbs;
+            eAdjectives = englishImport.adjectives;
+            ePrepositions = englishImport.prepositions;        
         }
 
         ~sentence() {}

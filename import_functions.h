@@ -1,6 +1,16 @@
 using namespace std;
 
 /**********************\
+ * Structs & Globals  *
+\**********************/
+struct language {
+    vector<vector<string>> nouns;
+    vector<vector<string>> verbs;
+    vector<vector<string>> adjectives;
+    vector<vector<string>> prepositions;
+};
+
+/**********************\
  * Function Prototypes
 \**********************/
 // strips spaces on the beginning/end of the input string, but not encapsulated spaces

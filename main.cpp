@@ -2,69 +2,69 @@
 
 int main() {
     srand(time(NULL));
+    
+    //controls import file format requirements
+    int invalidRowCount = 0;
+    int nounRowSize = 4;
+    int verbRowSize = 9;
+    int adjRowSize = 2;
+    int prepRowSize = 3;
 
     //create base import vectors
     string germanFileLocation = "data_files/german_list.csv";
     vector<vector<string>> germanWordList = import_file(germanFileLocation);
-    int invalidRowCount = 0;
-    int gNounRowSize = 4;
-    int gVerbRowSize = 9;
-    int gAdjRowSize = 2;
-    int gPrepRowSize = 3;
 
-    //divide import vectors into word types
-    vector<vector<string>> germanNouns = get_matches(germanWordList, "noun", 1);
-    remove_invalid_entries(germanNouns, gNounRowSize, invalidRowCount);
-    vector<vector<string>> germanVerbs = get_matches(germanWordList, "verb", 1);
-    remove_invalid_entries(germanVerbs, gVerbRowSize, invalidRowCount);
-    vector<vector<string>> germanAdjectives = get_matches(germanWordList, "adjective", 1);
-    remove_invalid_entries(germanAdjectives, gAdjRowSize, invalidRowCount);
-    vector<vector<string>> germanPrepositions = get_matches(germanWordList, "preposition", 1);
-    remove_invalid_entries(germanPrepositions, gPrepRowSize, invalidRowCount);
+    language german;
+
+    //divide import vectors into word types (stored in a struct). Also removes invalid data entries.
+    german.nouns = get_matches(germanWordList, "noun", 1);
+    remove_invalid_entries(german.nouns, nounRowSize, invalidRowCount);
+    german.verbs = get_matches(germanWordList, "verb", 1);
+    remove_invalid_entries(german.verbs, verbRowSize, invalidRowCount);
+    german.adjectives = get_matches(germanWordList, "adjective", 1);
+    remove_invalid_entries(german.adjectives, adjRowSize, invalidRowCount);
+    german.prepositions = get_matches(germanWordList, "preposition", 1);
+    remove_invalid_entries(german.prepositions, prepRowSize, invalidRowCount);
 
     cout << "German data imported. Input data had " << invalidRowCount << " invalid entries." << endl;
     cout << "nouns are: " << endl;
-    print_string_vector_vector(germanNouns);
+    print_string_vector_vector(german.nouns);
     cout << "verbs are: " << endl;
-    print_string_vector_vector(germanVerbs);
+    print_string_vector_vector(german.verbs);
     cout << "adjectives are: " << endl;
-    print_string_vector_vector(germanAdjectives);
+    print_string_vector_vector(german.adjectives);
     cout << "prepositions are: " << endl;
-    print_string_vector_vector(germanPrepositions);
+    print_string_vector_vector(german.prepositions);
 
     //english data import/modificaiton below: 
     string englishFileLocation = "data_files/english_list.csv";
     vector<vector<string>> englishWordList = import_file(englishFileLocation);
     invalidRowCount = 0;
-    int eNounRowSize = 4;
-    int eVerbRowSize = 9;
-    int eAdjRowSize = 2;
-    int ePrepRowSize = 3;
+    language english;
 
-     //divide import vectors into word types
-    vector<vector<string>> englishNouns = get_matches(englishWordList, "noun", 1);
-    remove_invalid_entries(englishNouns, eNounRowSize, invalidRowCount);
-    vector<vector<string>> englishVerbs = get_matches(englishWordList, "verb", 1);
-    remove_invalid_entries(englishVerbs, eVerbRowSize, invalidRowCount);
-    vector<vector<string>> englishAdjectives = get_matches(englishWordList, "adjective", 1);
-    remove_invalid_entries(englishAdjectives, eAdjRowSize, invalidRowCount);
-    vector<vector<string>> englishPrepositions = get_matches(englishWordList, "preposition", 1);
-    remove_invalid_entries(englishPrepositions, ePrepRowSize, invalidRowCount);
+    //divide import vectors into word types (stored in a struct). Also removes invalid data entries.
+    english.nouns = get_matches(englishWordList, "noun", 1);
+    remove_invalid_entries(english.nouns, nounRowSize, invalidRowCount);
+    english.verbs = get_matches(englishWordList, "verb", 1);
+    remove_invalid_entries(english.verbs, verbRowSize, invalidRowCount);
+    english.adjectives = get_matches(englishWordList, "adjective", 1);
+    remove_invalid_entries(english.adjectives, adjRowSize, invalidRowCount);
+    english.prepositions = get_matches(englishWordList, "preposition", 1);
+    remove_invalid_entries(english.prepositions, prepRowSize, invalidRowCount);
 
     //store it all in a single object
-    sentence mySentence { germanNouns, germanVerbs, germanAdjectives, germanPrepositions, 
-                          englishNouns, englishVerbs, englishAdjectives, englishPrepositions };
+    sentence mySentence { german, english };
     string input;
 
     cout << "English data imported. Input data had " << invalidRowCount << " invalid entries." << endl;
     cout << "nouns are: " << endl;
-    print_string_vector_vector(englishNouns);
+    print_string_vector_vector(english.nouns);
     cout << "verbs are: " << endl;
-    print_string_vector_vector(englishVerbs);
+    print_string_vector_vector(english.verbs);
     cout << "adjectives are: " << endl;
-    print_string_vector_vector(englishAdjectives);
+    print_string_vector_vector(english.adjectives);
     cout << "prepositions are: " << endl;
-    print_string_vector_vector(englishPrepositions);
+    print_string_vector_vector(english.prepositions);
 
     while ("n" != input) {
         cout << "Generate sentence?" << endl;
