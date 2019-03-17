@@ -5,7 +5,7 @@ int main() {
     
     //controls import file format requirements
     int invalidRowCount = 0;
-    int nounRowSize = 4;
+    int nounRowSize = 5;
     int verbRowSize = 9;
     int adjRowSize = 2;
     int prepRowSize = 3;
@@ -27,14 +27,14 @@ int main() {
     remove_invalid_entries(german.prepositions, prepRowSize, invalidRowCount);
 
     cout << "German data imported. Input data had " << invalidRowCount << " invalid entries." << endl;
-    cout << "nouns are: " << endl;
-    print_string_vector_vector(german.nouns);
-    cout << "verbs are: " << endl;
-    print_string_vector_vector(german.verbs);
-    cout << "adjectives are: " << endl;
-    print_string_vector_vector(german.adjectives);
-    cout << "prepositions are: " << endl;
-    print_string_vector_vector(german.prepositions);
+    // cout << "nouns are: " << endl;
+    // print_string_vector_vector(german.nouns);
+    // cout << "verbs are: " << endl;
+    // print_string_vector_vector(german.verbs);
+    // cout << "adjectives are: " << endl;
+    // print_string_vector_vector(german.adjectives);
+    // cout << "prepositions are: " << endl;
+    // print_string_vector_vector(german.prepositions);
 
     //english data import/modificaiton below: 
     string englishFileLocation = "data_files/english_list.csv";
@@ -57,14 +57,14 @@ int main() {
     string input;
 
     cout << "English data imported. Input data had " << invalidRowCount << " invalid entries." << endl;
-    cout << "nouns are: " << endl;
-    print_string_vector_vector(english.nouns);
-    cout << "verbs are: " << endl;
-    print_string_vector_vector(english.verbs);
-    cout << "adjectives are: " << endl;
-    print_string_vector_vector(english.adjectives);
-    cout << "prepositions are: " << endl;
-    print_string_vector_vector(english.prepositions);
+    // cout << "nouns are: " << endl;
+    // print_string_vector_vector(english.nouns);
+    // cout << "verbs are: " << endl;
+    // print_string_vector_vector(english.verbs);
+    // cout << "adjectives are: " << endl;
+    // print_string_vector_vector(english.adjectives);
+    // cout << "prepositions are: " << endl;
+    // print_string_vector_vector(english.prepositions);
 
     while ("n" != input) {
         cout << "Generate sentence?" << endl;

@@ -4,7 +4,7 @@ using namespace std;
 /****************************************************\
  * Functions. Details found in import_functions.h
 \* **************************************************/
-string strip_spaces(string &input) {
+string strip_spaces(string& input) {
     string outputString;
     int inputSize = input.length();
     for (int i = 0; i < inputSize; i++) {
@@ -15,7 +15,7 @@ string strip_spaces(string &input) {
     return outputString;
 }
 
-vector<string> generate_array(string &input, char delimeter) {
+vector<string> generate_array(string& input, char delimeter) {
     vector<string> output;
     string cell;
     int loopSize = input.length();
@@ -30,7 +30,7 @@ vector<string> generate_array(string &input, char delimeter) {
     return output;
 }
 
-vector<vector<string>> import_file(string &input) {
+vector<vector<string>> import_file(string& input) {
     vector<vector<string>> output;
     ifstream inputFile(input);
     string line;
@@ -45,7 +45,7 @@ vector<vector<string>> import_file(string &input) {
     return output;
 }
 
-vector<vector<string>> get_matches(vector<vector<string>> &input, string matchVal, int matchPos) {
+vector<vector<string>> get_matches(vector<vector<string>>& input, string matchVal, int matchPos) {
     vector<vector<string>> output;
     int loopSize = input.size();
     for(int i = 0; i < loopSize; ++i) {
@@ -56,7 +56,7 @@ vector<vector<string>> get_matches(vector<vector<string>> &input, string matchVa
     return output;
 }
 
-void print_string_vector_vector (vector<vector<string>> &input) {
+void print_string_vector_vector (vector<vector<string>>& input) {
     int loopSize = input.size();
     for(int i = 0; i < loopSize; ++i) {
         int innerLoopSize = input[i].size();
@@ -70,7 +70,7 @@ void print_string_vector_vector (vector<vector<string>> &input) {
     }
 }
 
-void remove_invalid_entries(vector<vector<string>> &input, int expectedEntrySize, int &invalidEntryCount) {
+void remove_invalid_entries(vector<vector<string>>& input, int expectedEntrySize, int& invalidEntryCount) {
     int loopSize = input.size();
     for(int i = 0; i < loopSize; ++i) {
         if ((expectedEntrySize +1) != input[i].size()) {
@@ -80,7 +80,7 @@ void remove_invalid_entries(vector<vector<string>> &input, int expectedEntrySize
     }
 }
 
-void print_string_vector (vector<string> &input) {
+void print_string_vector (vector<string>& input) {
     int loopSize = input.size();
     for (int i = 0; i < loopSize; ++i) {
         cout << input[i];

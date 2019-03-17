@@ -3,183 +3,123 @@ using namespace std;
 //repackage words into a class `sentence`
 class sentence {
     private:
-    
-        vector<vector<string>> gNouns;
-        vector<vector<string>> gVerbs;
-        vector<vector<string>> gAdjectives;
-        vector<vector<string>> gPrepositions;
-        vector<vector<string>> eNouns;
-        vector<vector<string>> eVerbs;
-        vector<vector<string>> eAdjectives;
-        vector<vector<string>> ePrepositions;
+
+        language german;
+        language english;
 
         int tense = 0;
         int numTenses = 3; //change this if more tenses are added
 
-        // sentence components to populate with generate(), 
-        // in the order they appear in a standard sentence
-        vector<string> chosenGSubjectNoun;
-        vector<string> chosenGSubjectAdjective;
-        vector<string> chosenGVerb;
-        vector<string> chosenGPreposition;
-        vector<string> chosenGPredicateNoun;
-        vector<string> chosenGPredicateAdjective;
+        enum sentenceCases { nominative, accusative, dative, genetive };
 
-        vector<string> chosenESubjectNoun;
-        vector<string> chosenESubjectAdjective;
-        vector<string> chosenEVerb;
-        vector<string> chosenEPreposition;
-        vector<string> chosenEPredicateNoun;
-        vector<string> chosenEPredicateAdjective;
+        enum germanGenders { der, die, das };
+        vector<string> germanPronounList = { "ich", "du", "er", "sie", "es", "wir", "ihr", "Sie" };
 
-        //vector package of sentence components, built by build_sentence()
+        enum englishGenders { masculine, feminine, neuter };
+        vector<string> englishPronounList = { "I", "you", "he", "she", "it", "we", "y'all", "they" };
+
+        //package of sentence components, built by build_sentence()
+        struct singleSentence {
+            vector<string> sNoun;
+            vector<string> sAdjective;
+            vector<string> verb;
+            vector<string> preposition;
+            vector<string> pNoun;
+            vector<string> pAdjective;
+        };
+        singleSentence germanSentence;
+        singleSentence englishSentence;
         vector<string> germanSentenceList;
         vector<string> englishSentenceList;
 
         // Chooses a word for the input list. The list should only contain
         // words you are okay choosing from. Use the get_matches() 
         // helper function in import_functions.h to get a workable sublist
-        vector<string> choose_word(vector<vector<string>> &input) {
+        vector<string> choose_word(vector<vector<string>>& input) {
             int choice = rand() % input.size();
             vector<string> wordData = input[choice];
             return wordData;
         }
-        bool is_pronoun (string &input) {
+
+        // Check whether the given input string exists within the search range.
+        bool match_exists (string& val, vector<string>& searchRange) {
+            int searchRangeSize = searchRange.size();
+            for(int i = 0; i < searchRangeSize; ++i) {
+                if (searchRange[i] == val) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        // Input a word. Checks whether it's a pronoun. Supports English and German.
+        bool is_pronoun (string& input) {
             bool output = false;
-            if ("ich" == input || "du" == input || "er" == input || "sie" == input || "es" == input || "wir" == input || "ihr" == input || "Sie" == input) {
+            if (match_exists(input, germanPronounList) || match_exists(input, englishPronounList)) {
                 output = true;
             }
             return output;
         }
 
-        // Appends the correct ending to the adjective based on gender, case, and plurality (or lack thereof)
-        // Requires: vector<string> input (word data), string gender (der/die/das for German, he/she/it for English), 
-        //           string wordCase (nominative/accusative/dative), bool plural (is the noun plural?), int language = 0 for German, 1 for English
-        string get_adjective_case (vector<string> &input, string &gender, string wordCase, bool plural, int language) {
-            if (language == 0) {
-                string suffix = "";
-
-                if ("der" == gender) {
-                    if ("nominative" == wordCase || "nominativ" == wordCase) {
-                        suffix = "e";
-                    } else if ("accusative" == wordCase || "akkusativ" == wordCase) {
-                        suffix = "en";
-                    } else if ("dative" == wordCase || "dativ" == wordCase) {
-                        suffix = "en";
-                    } else if ("genetive" == wordCase || "genetiv" == wordCase) {
-                        suffix = "en";
-                    }
-                } else if ("die" == gender && false == plural) {
-                    if ("nominative" == wordCase || "nominativ" == wordCase) {
-                        suffix = "e";
-                    } else if ("accusative" == wordCase || "akkusativ" == wordCase) {
-                        suffix = "e";
-                    } else if ("dative" == wordCase || "dativ" == wordCase) {
-                        suffix = "en";
-                    }
-                    else if ("genetive" == wordCase || "genetiv" == wordCase) {
-                        suffix = "en";
-                    }
-                } else if ("das" == gender) {
-                    if ("nominative" == wordCase || "nominativ" == wordCase) {
-                        suffix = "e";
-                    } else if ("accusative" == wordCase || "akkusativ" == wordCase) {
-                        suffix = "e";
-                    } else if ("dative" == wordCase || "dativ" == wordCase) {
-                        suffix = "en";
-                    } else if ("genetive" == wordCase || "genetiv" == wordCase) {
-                        suffix = "en";
-                    }
-                } else if ("die" == gender && true == plural) {
-                    if ("nominative" == wordCase || "nominativ" == wordCase) {
-                        suffix = "en";
-                    } else if ("accusative" == wordCase || "akkusativ" == wordCase) {
-                        suffix = "en";
-                    } else if ("dative" == wordCase || "dativ" == wordCase) {
-                        suffix = "en";
-                    } else if ("genetive" == wordCase || "genetiv" == wordCase) {
-                        suffix = "en";
-                    }
-                }
-                string output = input[2] + suffix;
-                return output;
-            } else if (1 == language) {
-                if (false == plural) {
-                    return input[2];
-                } else if (true == plural) {
-                    return input[3];
-                }
+        int case_to_int(string& input) {
+            if (input == "nominative") {
+                return 0;
+            } else if (input == "accusative") {
+                return 1;
+            } else if (input == "dative") {
+                return 2;
+            } else if (input == "genetive") {
+                return 3;
             }
-            return "REDACTED";
+            return 0;
         }
-
-        string get_the_conjugation(string &gender, string wordCase, bool plural, int language) {
+        // Modifies the input word to use the correct case (nominative/accusative/dative/genetive)
+        string caseify(string baseWord, string& gender, int wordCase, bool plural, int language) {
             if (language == 0) {
-                string theConjugation = "der";
-                if ("der" == gender) {
-                    if ("nominative" == wordCase || "nominativ" == wordCase) {
-                        theConjugation = "der";
-                    } else if ("accusative" == wordCase || "akkusativ" == wordCase) {
-                        theConjugation = "den";
-                    } else if ("dative" == wordCase || "dativ" == wordCase) {
-                        theConjugation = "dem";
-                    }
-                    else if ("genetive" == wordCase || "genetiv" == wordCase) {
-                        theConjugation = "des";
-                    }
-                } else if ("die" == gender && false == plural) {
-                    if ("nominative" == wordCase || "nominativ" == wordCase) {
-                        theConjugation = "die";
-                    } else if ("accusative" == wordCase || "akkusativ" == wordCase) {
-                        theConjugation = "die";
-                    } else if ("dative" == wordCase || "dativ" == wordCase) {
-                        theConjugation = "der";
-                    }
-                    else if ("genetive" == wordCase || "genetiv" == wordCase) {
-                        theConjugation = "der";
+                vector<vector<string>> germanWordEndings = {
+                    { "masculine",  "feminine", "neuter",   "plural" },
+                    { "e",          "e",        "e",        "en" },
+                    { "en",         "e",        "e",        "en" },
+                    { "en",         "en",       "en",       "en" },
+                    { "en",         "en",       "en",       "en" }
+                };
+                vector<vector<string>> germanTheForms = {
+                    { "masculine",  "feminine", "neuter",   "plural" },
+                    { "der",        "die",      "das",      "die" },
+                    { "den",        "die",      "das",      "die" },
+                    { "dem",        "der",      "dem",      "den" },
+                    { "des",        "der",      "des",      "der" }
+                };
+                int loopSize = germanWordEndings[0].size();
+                int genderNum = 0;
+                for(int i = 0; i < loopSize; i++) {
+                    if (germanWordEndings[0][i] == gender) {
+                        genderNum = i;
+                        break;
                     }
                 }
-                else if ("das" == gender) {
-                    if ("nominative" == wordCase || "nominativ" == wordCase) {
-                        theConjugation = "das";
-                    } else if ("accusative" == wordCase || "akkusativ" == wordCase) {
-                        theConjugation = "das";
-                    } else if ("dative" == wordCase || "dativ" == wordCase) {
-                        theConjugation = "dem";
-                    }
-                    else if ("genetive" == wordCase || "genetiv" == wordCase) {
-                        theConjugation = "des";
-                    }
-                } else if ("die" == gender && true == plural) {
-                    if ("nominative" == wordCase || "nominativ" == wordCase) {
-                        theConjugation = "die";
-                    } else if ("accusative" == wordCase || "akkusativ" == wordCase) {
-                        theConjugation = "die";
-                    } else if ("dative" == wordCase || "dativ" == wordCase) {
-                        theConjugation = "den";
-                    }
-                    else if ("genetive" == wordCase || "genetiv" == wordCase) {
-                        theConjugation = "der";
-                    }
+                if (baseWord == "the") {
+                    return germanTheForms[wordCase+1][genderNum];
+                } else {
+                    return baseWord + germanWordEndings[wordCase+1][genderNum];
                 }
-                return theConjugation;
+                
             } else if (language == 1) {
-                return "the";
+                return baseWord;
             } else {
                 return "";
             }
-           
         }
 
         // Adds the subject noun grouping as a component to germanSentenceList
-        void add_subject(vector<string> &sentenceList, vector<string> &word, vector<string> &wordAdjective, int language) {
-            sentenceList.push_back(get_the_conjugation(word[2], "nominative", false, language));
-            sentenceList.push_back(get_adjective_case(wordAdjective, word[2], "nominative", false, language));
+        void add_subject(vector<string>& sentenceList, vector<string>& word, vector<string>& wordAdjective, int language) {
+            sentenceList.push_back(caseify("the", word[5], 0, false, language));
+            sentenceList.push_back(caseify(wordAdjective[2], word[5], 0, false, language));
             sentenceList.push_back(word[3]);
         }
 
         // Adds the verb as a component to germanSentenceList
-        void add_verb(vector<string> &sentenceList, vector<string> &word, vector<string> &subjectNoun, int &tense, int language) {
+        void add_verb(vector<string>& sentenceList, vector<string>& word, vector<string>& subjectNoun, int& tense, int language) {
             string output = "";
             if (is_pronoun(subjectNoun[3]) != true) {
                 output = word[6];
@@ -192,19 +132,19 @@ class sentence {
         }
 
         // Adds the preposition the germanSentenceList
-        void add_preposition(vector<string> &sentenceList, vector<string> &word, int language) {
+        void add_preposition(vector<string>& sentenceList, vector<string>& word, int language) {
             sentenceList.push_back(word[2]);
         }
         // Adds the predicate noun grouping as a component to germanSentenceList
-        void add_predicate(vector<string> &sentenceList, vector<string> &word, vector<string> &wordAdjective, vector<string> &wordPreposition, int &tense, int language) {
-            sentenceList.push_back(get_the_conjugation(word[2], wordPreposition[3], false, language));
-            sentenceList.push_back(get_adjective_case(wordAdjective, word[2], wordPreposition[3], false, language));
+        void add_predicate(vector<string>& sentenceList, vector<string>& word, vector<string>& wordAdjective, vector<string>& wordPreposition, int& tense, int language) {
+            sentenceList.push_back(caseify("the", word[5], case_to_int(wordPreposition[3]), false, language));
+            sentenceList.push_back(caseify(wordAdjective[2], word[5], case_to_int(wordPreposition[3]), false, language));
             sentenceList.push_back(word[3]);
         }
 
         // Takes the vector components of a sentence and converts it to sentence format
         // eg: "The, big, dog, chased, the, yellow, cat.";
-        vector<string> sentence_case (vector<string> &input, string punctuation) {
+        vector<string> sentence_case (vector<string>& input, string punctuation) {
             vector<string> cleanSentence;
             int inputSize = input.size();
             for(int i = 0; i < inputSize; ++i) {
@@ -219,7 +159,7 @@ class sentence {
             return cleanSentence;
         }
 
-        vector<string> get_match (vector<string> &inValue, vector<vector<string>> &searchRange, int searchCol) {
+        vector<string> get_match (vector<string>& inValue, vector<vector<string>>& searchRange, int searchCol) {
             vector<string> output;
             int loopRange = searchRange.size();
             for(int i = 0; i < loopRange; ++i) {
@@ -232,16 +172,9 @@ class sentence {
 
     public:
     
-        sentence(language germanImport, language englishImport) {
-            gNouns = germanImport.nouns;
-            gVerbs = germanImport.verbs;
-            gAdjectives = germanImport.adjectives;
-            gPrepositions = germanImport.prepositions;
-            
-            eNouns = englishImport.nouns;
-            eVerbs = englishImport.verbs;
-            eAdjectives = englishImport.adjectives;
-            ePrepositions = englishImport.prepositions;        
+        sentence(language& germanImport, language& englishImport) {
+            german = germanImport;
+            english = englishImport;     
         }
 
         ~sentence() {}
@@ -254,32 +187,32 @@ class sentence {
             germanSentenceList.clear();
             englishSentenceList.clear();
 
-            chosenGSubjectNoun = choose_word(gNouns);
-            chosenGSubjectAdjective = choose_word(gAdjectives);
-            chosenGVerb = choose_word(gVerbs);
-            chosenGPreposition = choose_word(gPrepositions);
-            chosenGPredicateNoun = choose_word(gNouns);
-            chosenGPredicateAdjective = choose_word(gAdjectives);
+            germanSentence.sNoun = choose_word(german.nouns);
+            germanSentence.sAdjective = choose_word(german.adjectives);
+            germanSentence.verb = choose_word(german.verbs);
+            germanSentence.preposition = choose_word(german.prepositions);
+            germanSentence.pNoun = choose_word(german.nouns);
+            germanSentence.pAdjective = choose_word(german.adjectives);
             
-            chosenESubjectNoun = get_match(chosenGSubjectNoun, eNouns, 0);
-            chosenESubjectAdjective = get_match(chosenGSubjectAdjective, eAdjectives, 0);
-            chosenEVerb = get_match(chosenGVerb, eVerbs, 0);
-            chosenEPreposition = get_match(chosenGPreposition, ePrepositions, 0);
-            chosenEPredicateNoun = get_match(chosenGPredicateNoun, eNouns, 0);
-            chosenEPredicateAdjective = get_match(chosenGPredicateAdjective, eAdjectives, 0);
+            englishSentence.sNoun = get_match(germanSentence.sNoun, english.nouns, 0);
+            englishSentence.sAdjective = get_match(germanSentence.sAdjective, english.adjectives, 0);
+            englishSentence.verb = get_match(germanSentence.verb, english.verbs, 0);
+            englishSentence.preposition = get_match(germanSentence.preposition, english.prepositions, 0);
+            englishSentence.pNoun = get_match(germanSentence.pNoun, english.nouns, 0);
+            englishSentence.pAdjective = get_match(germanSentence.pAdjective, english.adjectives, 0);
 
             // Populate German sentence list
-            add_subject(germanSentenceList, chosenGSubjectNoun, chosenGSubjectAdjective, 0);
-            add_verb(germanSentenceList, chosenGVerb, chosenGSubjectNoun, tense, 0);
-            add_preposition(germanSentenceList, chosenGPreposition, 0);
-            add_predicate(germanSentenceList, chosenGPredicateNoun, chosenGPredicateAdjective, chosenGPreposition, tense, 0);
+            add_subject(germanSentenceList, germanSentence.sNoun, germanSentence.sAdjective, 0);
+            add_verb(germanSentenceList, germanSentence.verb, germanSentence.sNoun, tense, 0);
+            add_preposition(germanSentenceList, germanSentence.preposition, 0);
+            add_predicate(germanSentenceList, germanSentence.pNoun, germanSentence.pAdjective, germanSentence.preposition, tense, 0);
 
             // Populate English sentence list
-            add_subject(englishSentenceList, chosenESubjectNoun, chosenESubjectAdjective, 1);
-            add_verb(englishSentenceList, chosenEVerb, chosenESubjectNoun, tense, 1);
-            add_preposition(englishSentenceList, chosenEPreposition, 1);
-            add_predicate(englishSentenceList, chosenEPredicateNoun, chosenEPredicateAdjective, chosenEPreposition, tense, 1);
-     
+            add_subject(englishSentenceList, englishSentence.sNoun, englishSentence.sAdjective, 1);
+            add_verb(englishSentenceList, englishSentence.verb, englishSentence.sNoun, tense, 1);
+            add_preposition(englishSentenceList, englishSentence.preposition, 1);
+            add_predicate(englishSentenceList, englishSentence.pNoun, englishSentence.pAdjective, englishSentence.preposition, tense, 1);
+    
         }
 
         // Writes the generated sentence to the terminal
@@ -292,10 +225,10 @@ class sentence {
                 sentenceList = englishSentenceList;
             } 
 
-            vector<string> cleanSentenceList = sentence_case(sentenceList, ".");
-            int cleanSentenceListSize = cleanSentenceList.size();
-            for(int i = 0; i < cleanSentenceListSize; ++i) {
-                cout << cleanSentenceList[i] << " ";
+            sentenceList = sentence_case(sentenceList, ".");
+            int sentenceListSize = sentenceList.size();
+            for(int i = 0; i < sentenceListSize; ++i) {
+                cout << sentenceList[i] << " ";
             }
             cout << endl;
         }
