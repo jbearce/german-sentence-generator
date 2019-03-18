@@ -62,20 +62,20 @@ class sentence {
         }
 
         int case_to_int(string& input) {
-            if (input == "nominative") {
+            if ("nominative" == input) {
                 return 0;
-            } else if (input == "accusative") {
+            } else if ("accusative" == input) {
                 return 1;
-            } else if (input == "dative") {
+            } else if ("dative" == input) {
                 return 2;
-            } else if (input == "genetive") {
+            } else if ("genetive" == input) {
                 return 3;
             }
             return 0;
         }
         // Modifies the input word to use the correct case (nominative/accusative/dative/genetive)
         string caseify(string baseWord, string& gender, int wordCase, bool plural, int language) {
-            if (language == 0) {
+            if (0 == language) {
                 vector<vector<string>> germanWordEndings = {
                     { "masculine",  "feminine", "neuter",   "plural" },
                     { "e",          "e",        "e",        "en" },
@@ -92,19 +92,19 @@ class sentence {
                 };
                 int loopSize = germanWordEndings[0].size();
                 int genderNum = 0;
-                for(int i = 0; i < loopSize; i++) {
+                for(int i = 0; i < loopSize; ++i) {
                     if (germanWordEndings[0][i] == gender) {
                         genderNum = i;
                         break;
                     }
                 }
-                if (baseWord == "the") {
+                if ("the" == baseWord) {
                     return germanTheForms[wordCase+1][genderNum];
                 } else {
                     return baseWord + germanWordEndings[wordCase+1][genderNum];
                 }
                 
-            } else if (language == 1) {
+            } else if (1 == language) {
                 return baseWord;
             } else {
                 return "";
