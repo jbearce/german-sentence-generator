@@ -121,7 +121,7 @@ class sentence {
         // Adds the verb as a component to germanSentenceList
         void add_verb(vector<string>& sentenceList, vector<string>& word, vector<string>& subjectNoun, int& tense, int language) {
             string output = "";
-            if (is_pronoun(subjectNoun[3]) != true) {
+            if (!is_pronoun(subjectNoun[3])) {
                 output = word[6];
 
                 // TODO: handle verb tenses other than present
