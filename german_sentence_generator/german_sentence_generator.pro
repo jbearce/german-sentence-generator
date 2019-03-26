@@ -27,15 +27,16 @@ CONFIG += c++11
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
-    sentence_main.cpp \
     sentence.cpp \
-    import_functions.cpp
+    import_functions.cpp \
+    generate_sentence.cpp
 
 HEADERS += \
         mainwindow.h \
     sentence.h \
     import_functions.h \
-    header.h
+    header.h \
+    language_struct.h
 
 FORMS += \
         mainwindow.ui

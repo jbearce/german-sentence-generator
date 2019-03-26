@@ -2,15 +2,6 @@
 #define HEADER_H
 #include "header.h"
 #endif
-/**********************\
- * Structs & Globals  *
-\**********************/
-struct language {
-    std::vector<std::vector<QString>> nouns;
-    std::vector<std::vector<QString>> verbs;
-    std::vector<std::vector<QString>> adjectives;
-    std::vector<std::vector<QString>> prepositions;
-};
 
 /**********************\
  * Function Prototypes
