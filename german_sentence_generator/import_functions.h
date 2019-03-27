@@ -36,4 +36,6 @@ void print_QString_vector_vector (std::vector<std::vector<QString>>&);
 // Inputs: vector<vector<string>> input vector, int numRows (0-based), int removedRows
 void remove_invalid_entries(std::vector<std::vector<QString>>&, int, int&);
 
+QString print_QString_vector (std::vector<QString>&);
+
 }

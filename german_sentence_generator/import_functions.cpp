@@ -94,7 +94,7 @@ void import_functions::remove_invalid_entries(vector<vector<QString>>& input, in
     }
 }
 
-QString print_QString_vector (std::vector<QString>& input) {
+QString import_functions::print_QString_vector (std::vector<QString>& input) {
     int loopSize = input.size();
     QString output;
     for (int i = 0; i < loopSize; ++i) {
