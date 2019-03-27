@@ -6,6 +6,9 @@
 /**********************\
  * Function Prototypes
 \**********************/
+
+namespace import_functions {
+
 // strips spaces on the beginning/end of the input string, but not encapsulated spaces
 QString strip_spaces(QString&);
 
@@ -25,10 +28,12 @@ std::vector<std::vector<QString>> get_matches(std::vector<std::vector<QString>>&
 
 // outputs the contents of a 2-dimensional vector of strings to the console in CSV format.
 // requires: vector<vector<string>> input val
-void print_string_vector_vector (std::vector<std::vector<QString>>&);
+void print_QString_vector_vector (std::vector<std::vector<QString>>&);
 
 // Takes a vector of vectors of strings and **directly modifies it** to delete malformed lines.
 // This fixes any errors caused by attempting to access array positions that *should* be valid,
 // but aren't due to garbage data.
 // Inputs: vector<vector<string>> input vector, int numRows (0-based), int removedRows
 void remove_invalid_entries(std::vector<std::vector<QString>>&, int, int&);
+
+}

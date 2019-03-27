@@ -76,8 +76,8 @@ QString sentence::caseify(QString baseWord, QString& gender, int wordCase, bool 
 }
 
 void sentence::add_subject(vector<QString>& sentenceList, vector<QString>& word, vector<QString>& wordAdjective, int language) {
-    sentenceList.push_back(caseify("the", word[5], 0, false, language));
-    sentenceList.push_back(caseify(wordAdjective[2], word[5], 0, false, language));
+    sentenceList.push_back(sentence::caseify("the", word[5], 0, false, language));
+    sentenceList.push_back(sentence::caseify(wordAdjective[2], word[5], 0, false, language));
     sentenceList.push_back(word[3]);
 }
 
@@ -98,8 +98,8 @@ void sentence::add_preposition(vector<QString>& sentenceList, vector<QString>& w
 }
 
 void sentence::add_predicate(vector<QString>& sentenceList, vector<QString>& word, vector<QString>& wordAdjective, vector<QString>& wordPreposition, int& tense, int language) {
-    sentenceList.push_back(caseify("the", word[5], case_to_int(wordPreposition[3]), false, language));
-    sentenceList.push_back(caseify(wordAdjective[2], word[5], case_to_int(wordPreposition[3]), false, language));
+    sentenceList.push_back(sentence::caseify("the", word[5], case_to_int(wordPreposition[3]), false, language));
+    sentenceList.push_back(sentence::caseify(wordAdjective[2], word[5], case_to_int(wordPreposition[3]), false, language));
     sentenceList.push_back(word[3]);
 }
 
@@ -144,31 +144,31 @@ void sentence::generate() {
     germanSentenceList.clear();
     englishSentenceList.clear();
 
-    germanSentence.sNoun = choose_word(german.nouns);
-    germanSentence.sAdjective = choose_word(german.adjectives);
-    germanSentence.verb = choose_word(german.verbs);
-    germanSentence.preposition = choose_word(german.prepositions);
-    germanSentence.pNoun = choose_word(german.nouns);
-    germanSentence.pAdjective = choose_word(german.adjectives);
+    germanSentence.sNoun = sentence::choose_word(german.nouns);
+    germanSentence.sAdjective = sentence::choose_word(german.adjectives);
+    germanSentence.verb = sentence::choose_word(german.verbs);
+    germanSentence.preposition = sentence::choose_word(german.prepositions);
+    germanSentence.pNoun = sentence::choose_word(german.nouns);
+    germanSentence.pAdjective = sentence::choose_word(german.adjectives);
 
-    englishSentence.sNoun = get_match(germanSentence.sNoun, english.nouns, 0);
-    englishSentence.sAdjective = get_match(germanSentence.sAdjective, english.adjectives, 0);
-    englishSentence.verb = get_match(germanSentence.verb, english.verbs, 0);
-    englishSentence.preposition = get_match(germanSentence.preposition, english.prepositions, 0);
-    englishSentence.pNoun = get_match(germanSentence.pNoun, english.nouns, 0);
-    englishSentence.pAdjective = get_match(germanSentence.pAdjective, english.adjectives, 0);
+    englishSentence.sNoun = sentence::get_match(germanSentence.sNoun, english.nouns, 0);
+    englishSentence.sAdjective = sentence::get_match(germanSentence.sAdjective, english.adjectives, 0);
+    englishSentence.verb = sentence::get_match(germanSentence.verb, english.verbs, 0);
+    englishSentence.preposition = sentence::get_match(germanSentence.preposition, english.prepositions, 0);
+    englishSentence.pNoun = sentence::get_match(germanSentence.pNoun, english.nouns, 0);
+    englishSentence.pAdjective = sentence::get_match(germanSentence.pAdjective, english.adjectives, 0);
 
     // Populate German sentence list
-    add_subject(germanSentenceList, germanSentence.sNoun, germanSentence.sAdjective, 0);
-    add_verb(germanSentenceList, germanSentence.verb, germanSentence.sNoun, tense, 0);
-    add_preposition(germanSentenceList, germanSentence.preposition, 0);
-    add_predicate(germanSentenceList, germanSentence.pNoun, germanSentence.pAdjective, germanSentence.preposition, tense, 0);
+    sentence::add_subject(germanSentenceList, germanSentence.sNoun, germanSentence.sAdjective, 0);
+    sentence::add_verb(germanSentenceList, germanSentence.verb, germanSentence.sNoun, tense, 0);
+    sentence::add_preposition(germanSentenceList, germanSentence.preposition, 0);
+    sentence::add_predicate(germanSentenceList, germanSentence.pNoun, germanSentence.pAdjective, germanSentence.preposition, tense, 0);
 
     // Populate English sentence list
-    add_subject(englishSentenceList, englishSentence.sNoun, englishSentence.sAdjective, 1);
-    add_verb(englishSentenceList, englishSentence.verb, englishSentence.sNoun, tense, 1);
-    add_preposition(englishSentenceList, englishSentence.preposition, 1);
-    add_predicate(englishSentenceList, englishSentence.pNoun, englishSentence.pAdjective, englishSentence.preposition, tense, 1);
+    sentence::add_subject(englishSentenceList, englishSentence.sNoun, englishSentence.sAdjective, 1);
+    sentence::add_verb(englishSentenceList, englishSentence.verb, englishSentence.sNoun, tense, 1);
+    sentence::add_preposition(englishSentenceList, englishSentence.preposition, 1);
+    sentence::add_predicate(englishSentenceList, englishSentence.pNoun, englishSentence.pAdjective, englishSentence.preposition, tense, 1);
 
 }
 
@@ -181,7 +181,7 @@ QString sentence::output(int language) {
         sentenceList = englishSentenceList;
     }
 
-    sentenceList = sentence_case(sentenceList, ".");
+    sentenceList = sentence::sentence_case(sentenceList, ".");
     int sentenceListSize = sentenceList.size();
     for(int i = 0; i < sentenceListSize; ++i) {
        outputValue += sentenceList[i];

@@ -4,7 +4,7 @@ using namespace std;
 /****************************************************\
  * Functions. Details found in import_functions.h
 \* **************************************************/
-QString strip_spaces(QString& input) {
+QString import_functions::strip_spaces(QString& input) {
     QString outputQString;
     int inputSize = input.length();
     for (int i = 0; i < inputSize; i++) {
@@ -15,7 +15,7 @@ QString strip_spaces(QString& input) {
     return outputQString;
 }
 
-vector<QString> generate_array(QString& input, char delimeter) {
+vector<QString> import_functions::generate_array(QString& input, char delimeter) {
     vector<QString> output;
     QString cell;
     int loopSize = input.length();
@@ -30,7 +30,7 @@ vector<QString> generate_array(QString& input, char delimeter) {
     return output;
 }
 
-vector<vector<QString>> import_file(QString& input) {
+vector<vector<QString>> import_functions::import_file(QString& input) {
     vector<vector<QString>> output;
     QString cell;
     QString rawLine;
@@ -58,7 +58,7 @@ vector<vector<QString>> import_file(QString& input) {
     return output;
 }
 
-std::vector<std::vector<QString>> get_matches(vector<vector<QString>>& input, QString matchVal, int matchPos) {
+std::vector<std::vector<QString>> import_functions::get_matches(vector<vector<QString>>& input, QString matchVal, int matchPos) {
     vector<vector<QString>> output;
     int loopSize = input.size();
     for(int i = 0; i < loopSize; ++i) {
@@ -69,7 +69,7 @@ std::vector<std::vector<QString>> get_matches(vector<vector<QString>>& input, QS
     return output;
 }
 
-void print_QString_vector_vector (vector<vector<QString>>& input) {
+void import_functions::print_QString_vector_vector (vector<vector<QString>>& input) {
     int loopSize = input.size();
     QString output;
     for(int i = 0; i < loopSize; ++i) {
@@ -84,7 +84,7 @@ void print_QString_vector_vector (vector<vector<QString>>& input) {
     }
 }
 
-void remove_invalid_entries(vector<vector<QString>>& input, int expectedEntrySize, int& invalidEntryCount) {
+void import_functions::remove_invalid_entries(vector<vector<QString>>& input, int expectedEntrySize, int& invalidEntryCount) {
     int loopSize = input.size();
     for(int i = 0; i < loopSize; ++i) {
         if ((expectedEntrySize +1) != input[i].size()) {

@@ -16,21 +16,21 @@ sentence generate_sentence() {
 
     //create base import vectors
     QString germanFileLocation = "data_files/german_list.csv";
-    vector<vector<QString>> germanWordList = import_file(germanFileLocation);
+    vector<vector<QString>> germanWordList = import_functions::import_file(germanFileLocation);
 
     cout << "germanWordsList has " << germanWordList.size() << " lines.";
 
     language german;
 
     //divide import vectors into word types (stored in a struct). Also removes invalid data entries.
-    german.nouns = get_matches(germanWordList, "noun", 1);
-    remove_invalid_entries(german.nouns, nounRowSize, invalidRowCount);
-    german.verbs = get_matches(germanWordList, "verb", 1);
-    remove_invalid_entries(german.verbs, verbRowSize, invalidRowCount);
-    german.adjectives = get_matches(germanWordList, "adjective", 1);
-    remove_invalid_entries(german.adjectives, adjRowSize, invalidRowCount);
-    german.prepositions = get_matches(germanWordList, "preposition", 1);
-    remove_invalid_entries(german.prepositions, prepRowSize, invalidRowCount);
+    german.nouns = import_functions::get_matches(germanWordList, "noun", 1);
+    import_functions::remove_invalid_entries(german.nouns, nounRowSize, invalidRowCount);
+    german.verbs = import_functions::get_matches(germanWordList, "verb", 1);
+    import_functions::remove_invalid_entries(german.verbs, verbRowSize, invalidRowCount);
+    german.adjectives = import_functions::get_matches(germanWordList, "adjective", 1);
+    import_functions::remove_invalid_entries(german.adjectives, adjRowSize, invalidRowCount);
+    german.prepositions = import_functions::get_matches(germanWordList, "preposition", 1);
+    import_functions::remove_invalid_entries(german.prepositions, prepRowSize, invalidRowCount);
 
     cout << "German data imported. Input data had " << invalidRowCount << " invalid entries." << endl;
     cout << german.nouns.size() << " nouns found." << endl;
@@ -40,19 +40,19 @@ sentence generate_sentence() {
 
     //english data import/modificaiton below: 
     QString englishFileLocation = "data_files/english_list.csv";
-    vector<vector<QString>> englishWordList = import_file(englishFileLocation);
+    vector<vector<QString>> englishWordList = import_functions::import_file(englishFileLocation);
     invalidRowCount = 0;
     language english;
 
     //divide import vectors into word types (stored in a struct). Also removes invalid data entries.
-    english.nouns = get_matches(englishWordList, "noun", 1);
-    remove_invalid_entries(english.nouns, nounRowSize, invalidRowCount);
-    english.verbs = get_matches(englishWordList, "verb", 1);
-    remove_invalid_entries(english.verbs, verbRowSize, invalidRowCount);
-    english.adjectives = get_matches(englishWordList, "adjective", 1);
-    remove_invalid_entries(english.adjectives, adjRowSize, invalidRowCount);
-    english.prepositions = get_matches(englishWordList, "preposition", 1);
-    remove_invalid_entries(english.prepositions, prepRowSize, invalidRowCount);
+    english.nouns = import_functions::get_matches(englishWordList, "noun", 1);
+    import_functions::remove_invalid_entries(english.nouns, nounRowSize, invalidRowCount);
+    english.verbs = import_functions::get_matches(englishWordList, "verb", 1);
+    import_functions::remove_invalid_entries(english.verbs, verbRowSize, invalidRowCount);
+    english.adjectives = import_functions::get_matches(englishWordList, "adjective", 1);
+    import_functions::remove_invalid_entries(english.adjectives, adjRowSize, invalidRowCount);
+    english.prepositions = import_functions::get_matches(englishWordList, "preposition", 1);
+    import_functions::remove_invalid_entries(english.prepositions, prepRowSize, invalidRowCount);
 
     cout << "English data imported. Input data had " << invalidRowCount << " invalid entries." << endl;
     cout << english.nouns.size() << " nouns found." << endl;
