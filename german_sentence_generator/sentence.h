@@ -1,12 +1,6 @@
-#ifndef HEADER_H
-#define HEADER_H
+#ifndef SENTENCE_H
+#define SENTENCE_H
 #include "header.h"
-#endif //HEADER_H
-
-#ifndef LANGUAGE
-#define LANGUAGE
-#include "language_struct.h"
-#endif //LANGUAGE
 
 //repackage words into a class `sentence`
 class sentence {
@@ -73,7 +67,7 @@ class sentence {
         // eg: "The, big, dog, chased, the, yellow, cat.";
         std::vector<QString> sentence_case (std::vector<QString>&, QString);
 
-        vector<QString> get_match (std::vector<QString>&, std::vector<std::vector<QString>>&, int);
+        std::vector<QString> get_match (std::vector<QString>&, std::vector<std::vector<QString>>&, int);
 
     public:
 
@@ -91,3 +85,4 @@ class sentence {
         // input: vector<QString> sentenceList -- input a {lang}SentenceList
         QString output(int);
 };
+#endif //SENTENCE_H

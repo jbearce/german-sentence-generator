@@ -1,7 +1,7 @@
-#ifndef HEADER_H
-#define HEADER_H
+#ifndef IMPORT_FUNCTIONS_H
+#define IMPORT_FUNCTIONS_H
+
 #include "header.h"
-#endif
 
 /**********************\
  * Function Prototypes
@@ -39,3 +39,5 @@ void remove_invalid_entries(std::vector<std::vector<QString>>&, int, int&);
 QString print_QString_vector (std::vector<QString>&);
 
 }
+
+#endif // IMPORT_FUNCTIONS_H

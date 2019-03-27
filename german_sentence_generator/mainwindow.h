@@ -1,7 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 #include <QMainWindow>
-
+#include "sentence.h"
 namespace Ui {
 class MainWindow;
 }
@@ -19,6 +19,7 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
+    sentence mySentence;
 };
 
 #endif // MAINWINDOW_H

@@ -1,3 +1,5 @@
+#ifndef IMPORT_FUNCTIONS_CPP
+#define IMPORT_FUNCTIONS_CPP
 #include "import_functions.h"
 using namespace std;
 
@@ -102,3 +104,4 @@ QString import_functions::print_QString_vector (std::vector<QString>& input) {
     }
     return output;
 }
+#endif // IMPORT_FUNCTIONS_CPP

@@ -28,15 +28,13 @@ SOURCES += \
         main.cpp \
         mainwindow.cpp \
     sentence.cpp \
-    import_functions.cpp \
-    generate_sentence.cpp
+    import_functions.cpp
 
 HEADERS += \
         mainwindow.h \
     sentence.h \
     import_functions.h \
-    header.h \
-    language_struct.h
+    header.h
 
 FORMS += \
         mainwindow.ui
