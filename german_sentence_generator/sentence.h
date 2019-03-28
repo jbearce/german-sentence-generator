@@ -84,5 +84,9 @@ class sentence {
         // Writes the generated sentence to the terminal
         // input: vector<QString> sentenceList -- input a {lang}SentenceList
         QString output(int);
+
+        // Returns a list of available words for the given language (int)
+        // 0 = German; 1 = English
+        QString getWords(int);
 };
 #endif //SENTENCE_H

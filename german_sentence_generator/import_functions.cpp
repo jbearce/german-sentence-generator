@@ -9,7 +9,7 @@ using namespace std;
 QString import_functions::strip_spaces(QString& input) {
     QString outputQString;
     int inputSize = input.length();
-    for (int i = 0; i < inputSize; i++) {
+    for (int i = 0; i < inputSize; ++i) {
         //if the scrutinized character is not a space, or is both preceded by a non-space and followed by a non-space
         if ( input[i] != ' ' || ( (i > 0 && input[i-1] != ' ') && (i < inputSize -1 && input[i+1] != ' ') ) )
             outputQString += input[i]; //add it to the output
@@ -54,7 +54,6 @@ vector<vector<QString>> import_functions::import_file(QString& input) {
             }
             output.push_back(line);
         }
-        cout << "File " << input.toStdString() << " was opened successfully." << endl;
     }
     file.close();
     return output;
@@ -71,7 +70,7 @@ std::vector<std::vector<QString>> import_functions::get_matches(vector<vector<QS
     return output;
 }
 
-void import_functions::print_QString_vector_vector (vector<vector<QString>>& input) {
+QString import_functions::get_QString_vector_vector (vector<vector<QString>>& input) {
     int loopSize = input.size();
     QString output;
     for(int i = 0; i < loopSize; ++i) {
@@ -84,6 +83,18 @@ void import_functions::print_QString_vector_vector (vector<vector<QString>>& inp
         }
         output += "\n";
     }
+    return output;
+}
+
+QString import_functions::get_QString_vector_vector (std::vector<std::vector<QString>>& input, int col) {
+    QString output;
+    int numItems = input.size();
+    for(int i = 0; i < numItems; ++i) {
+        if (input[i].size() >= col){
+            output += input[i][col] + "\n";
+        }
+    }
+    return output;
 }
 
 void import_functions::remove_invalid_entries(vector<vector<QString>>& input, int expectedEntrySize, int& invalidEntryCount) {
@@ -96,12 +107,13 @@ void import_functions::remove_invalid_entries(vector<vector<QString>>& input, in
     }
 }
 
-QString import_functions::print_QString_vector (std::vector<QString>& input) {
+QString import_functions::get_QString_vector (std::vector<QString>& input) {
     int loopSize = input.size();
     QString output;
     for (int i = 0; i < loopSize; ++i) {
-        output += input[i];
+        output += input[i] + "\n";
     }
     return output;
 }
+
 #endif // IMPORT_FUNCTIONS_CPP

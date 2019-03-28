@@ -146,8 +146,6 @@ sentence::sentence() {
     QString germanFileLocation = "data_files/german_list.csv";
     vector<vector<QString>> germanWordList = import_functions::import_file(germanFileLocation);
 
-    cout << "germanWordsList has " << germanWordList.size() << " lines.";
-
     language germanImport;
 
     //divide import vectors into word types (stored in a struct). Also removes invalid data entries.
@@ -256,4 +254,20 @@ QString sentence::output(int language) {
     }
     return outputValue;
 }
+
+QString sentence::getWords(int lang) {
+    language langWords;
+    QString output;
+    if (0 == lang) {
+        langWords = german;
+    } else if (1 == lang) {
+        langWords = english;
+    }
+    output += import_functions::get_QString_vector_vector(langWords.nouns, 3);
+    output += import_functions::get_QString_vector_vector(langWords.adjectives, 2);
+    output += import_functions::get_QString_vector_vector(langWords.verbs, 3);
+    output += import_functions::get_QString_vector_vector(langWords.prepositions, 2);
+    return output;
+}
+
 #endif // SENTENCE_CPP

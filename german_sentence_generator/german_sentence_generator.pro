@@ -28,16 +28,19 @@ SOURCES += \
         main.cpp \
         mainwindow.cpp \
     sentence.cpp \
-    import_functions.cpp
+    import_functions.cpp \
+    displaywordsdialog.cpp
 
 HEADERS += \
         mainwindow.h \
     sentence.h \
     import_functions.h \
-    header.h
+    header.h \
+    displaywordsdialog.h
 
 FORMS += \
-        mainwindow.ui
+        mainwindow.ui \
+    displaywordsdialog.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

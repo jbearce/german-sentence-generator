@@ -17,6 +17,8 @@ public:
 private slots:
     void on_generateSentenceButton_released();
 
+    void on_displayWordsButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     sentence mySentence;

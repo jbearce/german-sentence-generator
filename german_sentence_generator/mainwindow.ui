@@ -39,9 +39,9 @@
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButton_2">
+       <widget class="QPushButton" name="displayWordsButton">
         <property name="text">
-         <string>PushButton</string>
+         <string>Show Available Words</string>
         </property>
        </widget>
       </item>
