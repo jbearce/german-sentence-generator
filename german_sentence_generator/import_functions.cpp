@@ -36,23 +36,13 @@ vector<vector<QString>> import_functions::import_file(QString& input) {
     vector<vector<QString>> output;
     QString cell;
     QString rawLine;
-    QString delimeter = ",";
+    char delimeter = ',';
     QFile file(input);
     if (file.open(QIODevice::ReadOnly | QIODevice::Text)){
         QTextStream stream(&file);
         while (!stream.atEnd()){
             rawLine = stream.readLine();
-            vector<QString> line;
-            int rawLineLength = rawLine.size();
-            for(int i = 0; i < rawLineLength; ++i) {
-                if (delimeter == rawLine[i]) {
-                    line.push_back(strip_spaces(cell));
-                    cell = "";
-                } else {
-                    cell += rawLine[i];
-                }
-            }
-            output.push_back(line);
+            output.push_back(import_functions::generate_array(rawLine, delimeter));
         }
     }
     file.close();

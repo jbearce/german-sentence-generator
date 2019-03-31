@@ -17,7 +17,6 @@ public:
     void setSentence(sentence&);
     void setDisplay(QString, int);
 private slots:
-    void on_closeButton_clicked();
 
 private:
     Ui::DisplayWordsDialog *ui;
