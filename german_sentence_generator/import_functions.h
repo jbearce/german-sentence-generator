@@ -44,7 +44,7 @@ QString get_QString_vector_vector (std::vector<std::vector<QString>>&);
  * Returns a trimmed down multi-line string of the
  * specified column of each row in the QString 2D vector provided
  * ***********************************/
-QString get_QString_vector_vector (std::vector<std::vector<QString>>&, int);
+QString get_QString_vector_vector (std::vector<std::vector<QString>>, int);
 
 /*************************************
  * Takes a vector of vectors of strings and **directly modifies it** to delete malformed lines.
@@ -52,7 +52,7 @@ QString get_QString_vector_vector (std::vector<std::vector<QString>>&, int);
  * but aren't due to garbage data.
  * Inputs: vector<vector<string>> input vector, int numRows (0-based), int removedRows
  * ***********************************/
-void remove_invalid_entries(std::vector<std::vector<QString>>&, int, int&);
+std::vector<std::vector<QString>> remove_invalid_entries(std::vector<std::vector<QString>>, int);
 
 /*************************************
  * Returns all contents of the QString vector provided as a single QString

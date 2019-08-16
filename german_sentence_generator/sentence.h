@@ -18,6 +18,20 @@ class sentence {
 
         enum germanGenders { der, die, das };
         std::vector<QString> germanPronounList = { "ich", "du", "er", "sie", "es", "wir", "ihr", "Sie" };
+        std::vector<std::vector<QString>> germanWordEndings = {
+            { "masculine",  "feminine", "neuter",   "plural" },
+            { "e",          "e",        "e",        "en" },
+            { "en",         "e",        "e",        "en" },
+            { "en",         "en",       "en",       "en" },
+            { "en",         "en",       "en",       "en" }
+        };
+        std::vector<std::vector<QString>> germanTheForms = {
+            { "masculine",  "feminine", "neuter",   "plural" },
+            { "der",        "die",      "das",      "die" },
+            { "den",        "die",      "das",      "die" },
+            { "dem",        "der",      "dem",      "den" },
+            { "des",        "der",      "des",      "der" }
+        };
 
         enum englishGenders { masculine, feminine, neuter };
         std::vector<QString> englishPronounList = { "I", "you", "he", "she", "it", "we", "y'all", "they" };
@@ -41,17 +55,17 @@ class sentence {
         * words you are okay choosing from. Use the get_matches()
         * helper function in import_functions.h to get a workable sublist
         * ***********************************/
-        std::vector<QString> choose_word(std::vector<std::vector<QString>>&);
+        std::vector<QString> choose_word(std::vector<std::vector<QString>>);
 
         /***********************************
         * Check whether the given input QString exists within the search range.
         ************************************/
-        bool match_exists (QString&, std::vector<QString>&);
+        bool match_exists (QString, std::vector<QString>);
 
         /***********************************
          * Input a word. Checks whether it's a pronoun. Supports English and German.
          * ********************************/
-        bool is_pronoun (QString&);
+        bool is_pronoun (QString&, language&);
 
         /***********************************
          * Takes a QString value and converts it to the correct integer position in the array
@@ -62,27 +76,27 @@ class sentence {
         /***********************************
          * Modifies the input word to use the correct case (nominative/accusative/dative/genetive)
          * ********************************/
-        QString caseify(QString, QString&, int, bool, int);
+        QString caseify(language&, std::vector<QString>, bool);
 
         /***********************************
-         * Adds the subject noun grouping as a component to germanSentenceList
+         * Adds the subject noun grouping as a component to an instance of language
          * ********************************/
-        void add_subject(std::vector<QString>&, std::vector<QString>&, std::vector<QString>&, int);
+        void add_subject(language& inLang, language& keyLang);
 
         /*************************************
-         * Adds the verb as a component to germanSentenceList
+         * Adds the verb as a component to an instance of language
          * **********************************/
-        void add_verb(std::vector<QString>&, std::vector<QString>&, std::vector<QString>&, int&, int);
+        void add_verb(language& inLang, language& keyLang);
 
         /*************************************
-         * Adds the preposition the germanSentenceList
+         * Adds the preposition as a component to an instance of language
          * **********************************/
-        void add_preposition(std::vector<QString>&, std::vector<QString>&, int);
+        void add_preposition(language& inLang, language& keyLang);
 
         /************************************
-         * Adds the predicate noun grouping as a component to germanSentenceList
+         * Adds the predicate noun grouping as a component to an instance of language
          * *********************************/
-        void add_predicate(std::vector<QString>&, std::vector<QString>&, std::vector<QString>&, std::vector<QString>&, int&, int);
+        void add_predicate(language& inLang, language& keyLang);
 
         /************************************
         * Takes the vector components of a sentence and converts it to sentence format
@@ -94,12 +108,20 @@ class sentence {
          * Returns the row in a 2D vector that contains
          * the specified word in the specified column
          * *********************************/
-        std::vector<QString> get_match (std::vector<QString>&, std::vector<std::vector<QString>>&, int);
+        std::vector<QString> get_match (std::vector<QString>, std::vector<std::vector<QString>>, int);
+
+        /************************************
+         * NEW: populates the sentence components for the language.
+         * Inputs: language& input, language& key
+         * If input.name == key.name, a random sentence is generated.
+         * Depends on add_subject, add_verb, etc., and their dependencies.
+         * **********************************/
+        void populate_sentence(language&, language&);
 
     public:
 
         /**********************************
-         * Imports word data from CSVs and generates a sentence from it
+         * Imports word data from CSVs and generates a sentence from it. Relise on the import functions.
          * *******************************/
         sentence();
 

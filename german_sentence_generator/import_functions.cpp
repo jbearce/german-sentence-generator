@@ -76,7 +76,7 @@ QString import_functions::get_QString_vector_vector (vector<vector<QString>>& in
     return output;
 }
 
-QString import_functions::get_QString_vector_vector (std::vector<std::vector<QString>>& input, int col) {
+QString import_functions::get_QString_vector_vector (std::vector<std::vector<QString>> input, int col) {
     QString output;
     int numItems = input.size();
     for(int i = 0; i < numItems; ++i) {
@@ -87,14 +87,14 @@ QString import_functions::get_QString_vector_vector (std::vector<std::vector<QSt
     return output;
 }
 
-void import_functions::remove_invalid_entries(vector<vector<QString>>& input, int expectedEntrySize, int& invalidEntryCount) {
+std::vector<std::vector<QString>> import_functions::remove_invalid_entries(vector<vector<QString>> input, int expectedEntrySize) {
     int loopSize = input.size();
     for(int i = 0; i < loopSize; ++i) {
         if ((expectedEntrySize +1) != input[i].size()) {
             input.erase(input.begin() + i);
-            invalidEntryCount++;
         }
     }
+    return input;
 }
 
 QString import_functions::get_QString_vector (std::vector<QString>& input) {
