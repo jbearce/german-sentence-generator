@@ -20,67 +20,22 @@ bool sentence::match_exists (QString val, vector<QString> searchRange) {
     return false;
 }
 
-bool sentence::is_pronoun (QString& input, language& lang) {
-    bool output = false;
-    if (match_exists(input, lang.get_pronoun_list())) {
-        output = true;
-    }
-    return output;
-}
-
-int sentence::case_to_int(QString& input) {
-    if ("nominative" == input) {
-        return 0;
-    } else if ("accusative" == input) {
-        return 1;
-    } else if ("dative" == input) {
-        return 2;
-    } else if ("genetive" == input) {
-        return 3;
-    }
-    return 0;
-}
-
-QString sentence::caseify(language& inLang, std::vector<QString> word, bool plural) {
-    std::vector<std::vector<QString>> wordEndings = inLang.get_word_endings();
-    if (wordEndings[0].size() > 0) {
-        int loopSize = germanWordEndings[0].size();
-        int genderNum = 0;
-        for(int i = 0; i < loopSize; ++i) {
-            if (germanWordEndings[0][i] == word[5]) {
-                genderNum = i;
-                break;
-            }
-        }
-
-        if ("the" == word[2]) {
-            return germanTheForms[wordCase+1][genderNum];
-        } else if (!plural) {
-            return word[2] + germanWordEndings[wordCase+1][genderNum];
-        } else {
-            return word[2] + germanWordEndings
-        }
-
-    } else {
-        return "";
-    }
-}
-
 void sentence::add_subject(language& input, language& keyLang) {
-    input.set_subject_adjective(input, keyLang);
-    input.set_subject_noun(input, keyLang);
+    if (input.get_id() == keyLang.get_id()) {
+        input.set_subject_adjective(sentence::choose_word(input.get_adjective_list()));
+        input.set_subject_noun(sentence::choose_word(input.get_noun_list()));
+    } else {
+        input.set_subject_adjective(sentence::get_match(keyLang.get_subject_adjective(), input.get_adjective_list(), 0));
+        input.set_subject_noun(sentence::get_match(keyLang.get_subject_noun(), input.get_noun_list(), 0));
+    }
 }
 
 void sentence::add_verb(language& input, language& keyLang) {
-    QString output = "";
-    if (!is_pronoun(keyLang.get_subject_noun()[3])) {
-        output = word[6];
-
-        // TODO: handle verb tenses other than present
+    if (input.get_id() == keyLang.get_id()) {
+        input.set_verb(sentence::choose_word(input.get_verb_list()));
     } else {
-        // TODO: pronoun handling for all 6 cases
+        input.set_verb(sentence::get_match(keyLang.get_verb(), input.get_verb_list(), 0));
     }
-    sentenceList.push_back(output);
 }
 
 void sentence::add_preposition(language& input, language& keyLang) {
@@ -92,9 +47,13 @@ void sentence::add_preposition(language& input, language& keyLang) {
 }
 
 void sentence::add_predicate(language& input, language& keyLang) {
-    sentenceList.push_back(sentence::caseify("the", word[5], case_to_int(wordPreposition[3]), false, language));
-    sentenceList.push_back(sentence::caseify(wordAdjective[2], word[5], case_to_int(wordPreposition[3]), false, language));
-    sentenceList.push_back(word[3]);
+    if (input.get_id() == keyLang.get_id()) {
+        input.set_predicate_noun(sentence::choose_word(input.get_noun_list()));
+        input.set_predicate_adjective(sentence::choose_word(input.get_adjective_list()));
+    } else {
+        input.set_predicate_noun(sentence::get_match(keyLang.get_predicate_noun(), input.get_noun_list(), 0));
+        input.set_predicate_adjective(sentence::get_match(keyLang.get_predicate_adjective(), input.get_preposition_list(), 0));
+    }
 }
 
 vector<QString> sentence::sentence_case (vector<QString>& input, QString punctuation) {
@@ -166,7 +125,7 @@ sentence::sentence() {
     wordCount += germanImport.get_verb_list().size();
     wordCount += germanImport.get_adjective_list().size();
     wordCount += germanImport.get_preposition_list().size();
-    cout << wordCount << " words imported." << endl;
+    std::cout << wordCount << " words imported." << endl;
 
     //english data import/modificaiton below:
     QString englishFileLocation = "data_files/english_list.csv";
@@ -187,13 +146,13 @@ sentence::sentence() {
     englishImport.set_preposition_list(import_functions::get_matches(englishWordList, "preposition", 1));
     englishImport.set_preposition_list(import_functions::remove_invalid_entries(englishImport.get_preposition_list(), prepRowSize));
 
-    cout << "English data loaded. ";
+    std::cout << "English data loaded. ";
     wordCount = 0;
     wordCount += englishImport.get_noun_list().size();
     wordCount += englishImport.get_verb_list().size();
     wordCount += englishImport.get_adjective_list().size();
     wordCount += englishImport.get_preposition_list().size();
-    cout << wordCount << " words imported." << endl;
+    std::cout << wordCount << " words imported." << endl;
 
     //store generated languages and construct parallel sentences
     german = std::move(germanImport);
@@ -223,7 +182,6 @@ sentence::~sentence() {}
 void sentence::generate() {
     //tense = rand() % numTenses; //leave 0 for now. planned choices: present, past, or future (perfekt)
     tense = 0;
-    bool plural = rand() % 1;
     germanSentenceList.clear();
     englishSentenceList.clear();
 

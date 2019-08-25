@@ -76,7 +76,7 @@ class sentence {
         /***********************************
          * Modifies the input word to use the correct case (nominative/accusative/dative/genetive)
          * ********************************/
-        QString caseify(language&, std::vector<QString>, bool);
+        QString caseify(language&, std::vector<QString>, QString, bool);
 
         /***********************************
          * Adds the subject noun grouping as a component to an instance of language
