@@ -56,8 +56,6 @@ public:
 
     void set_predicate_adjective(std::vector<QString> input);
 
-    void clear_sentence();
-
     /****************************************
      * Retrieve sentence building blocks
      * **************************************/

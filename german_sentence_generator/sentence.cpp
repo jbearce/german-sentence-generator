@@ -116,7 +116,6 @@ sentence::sentence(language& germanImport, language& englishImport) {
 sentence::~sentence() {}
 
 void sentence::generate() {
-    german.clear_sentence();
     german.set_subject_noun(sentence::choose_word(german.get_noun_list()));
     german.set_subject_adjective(sentence::choose_word(german.get_adjective_list()));
     german.set_verb(sentence::choose_word(german.get_verb_list()));
@@ -124,7 +123,6 @@ void sentence::generate() {
     german.set_predicate_noun(sentence::choose_word(german.get_noun_list()));
     german.set_predicate_adjective(sentence::choose_word(german.get_adjective_list()));
 
-    english.clear_sentence();
     english.set_subject_noun(sentence::get_match(german.get_subject_noun(), english.get_noun_list(), 0));
     english.set_subject_adjective(sentence::get_match(german.get_subject_adjective(), english.get_adjective_list(), 0));
     english.set_verb(sentence::get_match(german.get_verb(), english.get_verb_list(), 0));

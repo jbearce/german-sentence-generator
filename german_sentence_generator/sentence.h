@@ -45,42 +45,6 @@ class sentence {
         ************************************/
         bool match_exists (QString, std::vector<QString>);
 
-        /***********************************
-         * Input a word. Checks whether it's a pronoun. Supports English and German.
-         * ********************************/
-        bool is_pronoun (QString&, language&);
-
-        /***********************************
-         * Takes a QString value and converts it to the correct integer position in the array
-         * Input must be one of: "nominative", "accusative", "dative", or "genetive"
-         * ********************************/
-        int case_to_int(QString&);
-
-        /***********************************
-         * Modifies the input word to use the correct case (nominative/accusative/dative/genetive)
-         * ********************************/
-        QString caseify(language&, std::vector<QString>, QString, bool);
-
-        /***********************************
-         * Adds the subject noun grouping as a component to an instance of language
-         * ********************************/
-        void add_subject(language& inLang, language& keyLang);
-
-        /*************************************
-         * Adds the verb as a component to an instance of language
-         * **********************************/
-        void add_verb(language& inLang, language& keyLang);
-
-        /*************************************
-         * Adds the preposition as a component to an instance of language
-         * **********************************/
-        void add_preposition(language& inLang, language& keyLang);
-
-        /************************************
-         * Adds the predicate noun grouping as a component to an instance of language
-         * *********************************/
-        void add_predicate(language& inLang, language& keyLang);
-
         /************************************
         * Takes the vector components of a sentence and converts it to sentence format
         * eg: "The, big, dog, chased, the, yellow, cat.";
@@ -92,14 +56,6 @@ class sentence {
          * the specified word in the specified column
          * *********************************/
         std::vector<QString> get_match (std::vector<QString>, std::vector<std::vector<QString>>, int);
-
-        /************************************
-         * NEW: populates the sentence components for the language.
-         * Inputs: language& input, language& key
-         * If input.name == key.name, a random sentence is generated.
-         * Depends on add_subject, add_verb, etc., and their dependencies.
-         * **********************************/
-        void populate_sentence(language&, language&);
 
         void import_word_list(language& input, std::vector<std::vector<QString>> wordList);
 

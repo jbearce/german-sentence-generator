@@ -59,16 +59,6 @@ void language::set_predicate_adjective(std::vector<QString> input) {
     pAdjective = input;
 }
 
-void language::clear_sentence() {
-    sNoun.empty();
-    sAdjective.empty();
-    verb.empty();
-    preposition.empty();
-    pNoun.empty();
-    pAdjective.empty();
-    sentenceList.empty();
-}
-
 QString language::get_id() {
     return id;
 }
