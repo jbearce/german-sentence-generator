@@ -1,6 +1,8 @@
 #ifndef SENTENCE_H
 #define SENTENCE_H
 #include "header.h"
+#include "language.h"
+#include "rosettastone.h"
 
 /******************************
  * Takes input data and processes it into parallel English and German sentences
@@ -11,12 +13,8 @@ class sentence {
         language german;
         language english;
 
-        int tense = 0;
-        int numTenses = 3; //change this if more tenses are added
+        rosettaStone langList{german, english};
 
-        enum sentenceCases { nominative, accusative, dative, genetive };
-
-        enum germanGenders { der, die, das };
         std::vector<QString> germanPronounList = { "ich", "du", "er", "sie", "es", "wir", "ihr", "Sie" };
         std::vector<std::vector<QString>> germanWordEndings = {
             { "masculine",  "feminine", "neuter",   "plural" },
@@ -33,22 +31,7 @@ class sentence {
             { "des",        "der",      "des",      "der" }
         };
 
-        enum englishGenders { masculine, feminine, neuter };
         std::vector<QString> englishPronounList = { "I", "you", "he", "she", "it", "we", "y'all", "they" };
-
-        //package of sentence components, built by build_sentence()
-        struct singleSentence {
-            std::vector<QString> sNoun;
-            std::vector<QString> sAdjective;
-            std::vector<QString> verb;
-            std::vector<QString> preposition;
-            std::vector<QString> pNoun;
-            std::vector<QString> pAdjective;
-        };
-        singleSentence germanSentence;
-        singleSentence englishSentence;
-        std::vector<QString> germanSentenceList;
-        std::vector<QString> englishSentenceList;
 
         /***********************************
         * Chooses a word for the input list. The list should only contain
@@ -118,6 +101,8 @@ class sentence {
          * **********************************/
         void populate_sentence(language&, language&);
 
+        void import_word_list(language& input, std::vector<std::vector<QString>> wordList);
+
     public:
 
         /**********************************
@@ -142,12 +127,12 @@ class sentence {
         * Writes the generated sentence to the terminal
         * input: vector<QString> sentenceList -- input a {lang}SentenceList
         * ***********************************/
-        QString output(int);
+        QString output(QString);
 
         /************************************
         * Returns a list of available words for the given language (int)
         * 0 = German; 1 = English
         * ***********************************/
-        QString getWords(int);
+        QString get_words(QString);
 };
 #endif //SENTENCE_H

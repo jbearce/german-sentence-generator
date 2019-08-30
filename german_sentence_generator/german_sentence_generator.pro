@@ -25,14 +25,18 @@ DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++11
 
 SOURCES += \
+    language.cpp \
         main.cpp \
         mainwindow.cpp \
+    rosettastone.cpp \
     sentence.cpp \
     import_functions.cpp \
     displaywordsdialog.cpp
 
 HEADERS += \
+    language.h \
         mainwindow.h \
+    rosettastone.h \
     sentence.h \
     import_functions.h \
     header.h \

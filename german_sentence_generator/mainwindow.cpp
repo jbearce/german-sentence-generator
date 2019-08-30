@@ -6,8 +6,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    ui->germanWordsDisplay->setText(mySentence.output(0));
-    ui->englishWordsDisplay->setText(mySentence.output(1));
+    ui->germanWordsDisplay->setText(mySentence.output("german"));
+    ui->englishWordsDisplay->setText(mySentence.output("english"));
 }
 
 MainWindow::~MainWindow()
@@ -18,15 +18,15 @@ MainWindow::~MainWindow()
 void MainWindow::on_generateSentenceButton_released()
 {
     mySentence.generate();
-    ui->germanWordsDisplay->setText(mySentence.output(0));
-    ui->englishWordsDisplay->setText(mySentence.output(1));
+    ui->germanWordsDisplay->setText(mySentence.output("german"));
+    ui->englishWordsDisplay->setText(mySentence.output("english"));
 }
 
 void MainWindow::on_displayWordsButton_clicked()
 {
     DisplayWordsDialog d;
-    d.setDisplay(mySentence.getWords(0), 0);
-    d.setDisplay(mySentence.getWords(1), 1);
+    d.setDisplay(mySentence.get_words("german"), 0);
+    d.setDisplay(mySentence.get_words("english"), 1);
     d.setModal(true);
     d.exec();
 }

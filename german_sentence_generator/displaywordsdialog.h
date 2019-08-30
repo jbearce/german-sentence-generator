@@ -14,7 +14,6 @@ class DisplayWordsDialog : public QDialog
 public:
     explicit DisplayWordsDialog(QWidget *parent = nullptr);
     ~DisplayWordsDialog();
-    void setSentence(sentence&);
     void setDisplay(QString, int);
 private slots:
 

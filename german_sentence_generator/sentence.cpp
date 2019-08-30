@@ -5,62 +5,26 @@
 using namespace std;
 
 vector<QString> sentence::choose_word(vector<vector<QString>> input) {
-    int choice = rand() % input.size();
-    vector<QString> wordData = input[choice];
+    int choice = int(rand() % int(input.size()));
+    vector<QString> wordData = input[u_long(choice)];
     return wordData;
 }
 
 bool sentence::match_exists (QString val, vector<QString> searchRange) {
-    int searchRangeSize = searchRange.size();
+    int searchRangeSize = int(searchRange.size());
     for(int i = 0; i < searchRangeSize; ++i) {
-        if (searchRange[i] == val) {
+        if (searchRange[u_int(i)] == val) {
             return true;
         }
     }
     return false;
 }
 
-void sentence::add_subject(language& input, language& keyLang) {
-    if (input.get_id() == keyLang.get_id()) {
-        input.set_subject_adjective(sentence::choose_word(input.get_adjective_list()));
-        input.set_subject_noun(sentence::choose_word(input.get_noun_list()));
-    } else {
-        input.set_subject_adjective(sentence::get_match(keyLang.get_subject_adjective(), input.get_adjective_list(), 0));
-        input.set_subject_noun(sentence::get_match(keyLang.get_subject_noun(), input.get_noun_list(), 0));
-    }
-}
-
-void sentence::add_verb(language& input, language& keyLang) {
-    if (input.get_id() == keyLang.get_id()) {
-        input.set_verb(sentence::choose_word(input.get_verb_list()));
-    } else {
-        input.set_verb(sentence::get_match(keyLang.get_verb(), input.get_verb_list(), 0));
-    }
-}
-
-void sentence::add_preposition(language& input, language& keyLang) {
-    if (input.get_id() == keyLang.get_id()) {
-        input.set_preposition(sentence::choose_word(input.get_preposition_list()));
-    } else {
-        input.set_preposition(sentence::get_match(keyLang.get_preposition(), input.get_preposition_list(), 0));
-    }
-}
-
-void sentence::add_predicate(language& input, language& keyLang) {
-    if (input.get_id() == keyLang.get_id()) {
-        input.set_predicate_noun(sentence::choose_word(input.get_noun_list()));
-        input.set_predicate_adjective(sentence::choose_word(input.get_adjective_list()));
-    } else {
-        input.set_predicate_noun(sentence::get_match(keyLang.get_predicate_noun(), input.get_noun_list(), 0));
-        input.set_predicate_adjective(sentence::get_match(keyLang.get_predicate_adjective(), input.get_preposition_list(), 0));
-    }
-}
-
 vector<QString> sentence::sentence_case (vector<QString>& input, QString punctuation) {
     vector<QString> cleanSentence;
-    int inputSize = input.size();
+    int inputSize = int(input.size());
     for(int i = 0; i < inputSize; ++i) {
-        QString formattedOutput = input[i];
+        QString formattedOutput = input[u_long(i)];
         if (0 == i) {
             formattedOutput[0] = formattedOutput[0].toUpper();
         } else if ((inputSize - 1) == i) {
@@ -73,86 +37,58 @@ vector<QString> sentence::sentence_case (vector<QString>& input, QString punctua
 
 vector<QString> sentence::get_match (vector<QString> inValue, vector<vector<QString>> searchRange, int searchCol) {
     vector<QString> output;
-    int loopRange = searchRange.size();
+    int loopRange = int(searchRange.size());
     for(int i = 0; i < loopRange; ++i) {
-        if (searchRange[i][searchCol] == inValue[searchCol]) {
-            return searchRange[i];
+        if (searchRange[u_long(i)][u_long(searchCol)] == inValue[u_long(searchCol)]) {
+            return searchRange[u_long(i)];
         }
     }
     return output;
 }
 
-// Populate single sentence
-void sentence::populate_sentence(language& inLang, language& keyLang) {
-    sentence::add_subject(inLang, keyLang);
-    sentence::add_verb(inLang, keyLang);
-    sentence::add_preposition(inLang, keyLang);
-    sentence::add_predicate(inLang, keyLang);
-}
-
-sentence::sentence() {
-    srand(time(NULL));
-
+void sentence::import_word_list(language& input, std::vector<std::vector<QString>> wordList) {
     //controls import file format requirements
-    int invalidRowCount = 0;
     int nounRowSize = 5;
     int verbRowSize = 9;
     int adjRowSize = 2;
     int prepRowSize = 3;
 
+    input.set_noun_list(import_functions::get_matches(wordList, "noun", 1));
+    input.set_noun_list(import_functions::remove_invalid_entries(input.get_noun_list(), nounRowSize));
+
+    input.set_verb_list(import_functions::get_matches(wordList, "verb", 1));
+    input.set_verb_list(import_functions::remove_invalid_entries(input.get_verb_list(), verbRowSize));
+
+    input.set_adjective_list(import_functions::get_matches(wordList, "adjective", 1));
+    input.set_adjective_list(import_functions::remove_invalid_entries(input.get_adjective_list(), adjRowSize));
+
+    input.set_preposition_list(import_functions::get_matches(wordList, "preposition", 1));
+    input.set_preposition_list(import_functions::remove_invalid_entries(input.get_preposition_list(), prepRowSize));
+
+    int wordCount = 0;
+    wordCount += input.get_noun_list().size();;
+    wordCount += input.get_verb_list().size();
+    wordCount += input.get_adjective_list().size();
+    wordCount += input.get_preposition_list().size();
+    std::cout << wordCount << " words imported." << endl;
+}
+
+sentence::sentence() {
+    srand(u_int(time(nullptr)));
+
     //create base import vectors
     QString germanFileLocation = "data_files/german_list.csv";
     vector<vector<QString>> germanWordList = import_functions::import_file(germanFileLocation);
-
     language germanImport;
-
-    //divide import vectors into word types (stored in a struct). Also removes invalid data entries.
-    germanImport.set_noun_list(import_functions::get_matches(germanWordList, "noun", 1));
-    germanImport.set_noun_list(import_functions::remove_invalid_entries(germanImport.get_noun_list(), nounRowSize));
-
-    germanImport.set_verb_list(import_functions::get_matches(germanWordList, "verb", 1));
-    germanImport.set_verb_list(import_functions::remove_invalid_entries(germanImport.get_verb_list(), verbRowSize));
-
-    germanImport.set_adjective_list(import_functions::get_matches(germanWordList, "adjective", 1));
-    germanImport.set_adjective_list(import_functions::remove_invalid_entries(germanImport.get_adjective_list(), adjRowSize));
-
-    germanImport.set_preposition_list(import_functions::get_matches(germanWordList, "preposition", 1));
-    germanImport.set_preposition_list(import_functions::remove_invalid_entries(germanImport.get_preposition_list(), prepRowSize));
-
-    std::cout << "German data loaded. ";
-    int wordCount = 0;
-    wordCount += germanImport.get_noun_list().size();;
-    wordCount += germanImport.get_verb_list().size();
-    wordCount += germanImport.get_adjective_list().size();
-    wordCount += germanImport.get_preposition_list().size();
-    std::cout << wordCount << " words imported." << endl;
+    std::cout << "Loading German data... ";
+    import_word_list(germanImport, germanWordList);
 
     //english data import/modificaiton below:
     QString englishFileLocation = "data_files/english_list.csv";
     vector<vector<QString>> englishWordList = import_functions::import_file(englishFileLocation);
-    invalidRowCount = 0;
     language englishImport;
-
-    //divide import vectors into word types (stored in a struct). Also removes invalid data entries.
-    englishImport.set_noun_list(import_functions::get_matches(englishWordList, "noun", 1));
-    englishImport.set_noun_list(import_functions::remove_invalid_entries(englishImport.get_noun_list(), nounRowSize));
-
-    englishImport.set_verb_list(import_functions::get_matches(englishWordList, "verb", 1));
-    englishImport.set_verb_list(import_functions::remove_invalid_entries(englishImport.get_verb_list(), verbRowSize));
-
-    englishImport.set_adjective_list(import_functions::get_matches(englishWordList, "adjective", 1));
-    englishImport.set_adjective_list(import_functions::remove_invalid_entries(englishImport.get_adjective_list(), adjRowSize));
-
-    englishImport.set_preposition_list(import_functions::get_matches(englishWordList, "preposition", 1));
-    englishImport.set_preposition_list(import_functions::remove_invalid_entries(englishImport.get_preposition_list(), prepRowSize));
-
-    std::cout << "English data loaded. ";
-    wordCount = 0;
-    wordCount += englishImport.get_noun_list().size();
-    wordCount += englishImport.get_verb_list().size();
-    wordCount += englishImport.get_adjective_list().size();
-    wordCount += englishImport.get_preposition_list().size();
-    std::cout << wordCount << " words imported." << endl;
+    std::cout << "Loading English data... ";
+    import_word_list(englishImport, englishWordList);
 
     //store generated languages and construct parallel sentences
     german = std::move(germanImport);
@@ -180,11 +116,7 @@ sentence::sentence(language& germanImport, language& englishImport) {
 sentence::~sentence() {}
 
 void sentence::generate() {
-    //tense = rand() % numTenses; //leave 0 for now. planned choices: present, past, or future (perfekt)
-    tense = 0;
-    germanSentenceList.clear();
-    englishSentenceList.clear();
-
+    german.clear_sentence();
     german.set_subject_noun(sentence::choose_word(german.get_noun_list()));
     german.set_subject_adjective(sentence::choose_word(german.get_adjective_list()));
     german.set_verb(sentence::choose_word(german.get_verb_list()));
@@ -192,6 +124,7 @@ void sentence::generate() {
     german.set_predicate_noun(sentence::choose_word(german.get_noun_list()));
     german.set_predicate_adjective(sentence::choose_word(german.get_adjective_list()));
 
+    english.clear_sentence();
     english.set_subject_noun(sentence::get_match(german.get_subject_noun(), english.get_noun_list(), 0));
     english.set_subject_adjective(sentence::get_match(german.get_subject_adjective(), english.get_adjective_list(), 0));
     english.set_verb(sentence::get_match(german.get_verb(), english.get_verb_list(), 0));
@@ -199,36 +132,27 @@ void sentence::generate() {
     english.set_predicate_noun(sentence::get_match(german.get_predicate_noun(), english.get_noun_list(), 0));
     english.set_predicate_adjective(sentence::get_match(german.get_predicate_adjective(), english.get_adjective_list(), 0));
 
-    sentence::populate_sentence(german, german);
-    sentence::populate_sentence(english, german);
+    german.build_sentence_list();
+    english.build_sentence_list();
 }
 
-QString sentence::output(int language) {
+QString sentence::output(QString langID) {
+    language inLang = langList.get_language(langID);
+    std::vector<QString>sentenceList = inLang.sentenceList;
     QString outputValue;
-    vector<QString>sentenceList;
-    if (0 == language) {
-        sentenceList = germanSentenceList;
-    } else if (1 == language) {
-        sentenceList = englishSentenceList;
-    }
-
     sentenceList = sentence::sentence_case(sentenceList, ".");
-    int sentenceListSize = sentenceList.size();
+    int sentenceListSize = int(sentenceList.size());
     for(int i = 0; i < sentenceListSize; ++i) {
-       outputValue += sentenceList[i];
+       outputValue += sentenceList[u_int(i)];
        outputValue += " ";
     }
     return outputValue;
 }
 
-QString sentence::getWords(int lang) {
-    language langWords;
+QString sentence::get_words(QString langID) {
+    language langWords = langList.get_language(langID);
     QString output;
-    if (0 == lang) {
-        langWords = german;
-    } else if (1 == lang) {
-        langWords = english;
-    }
+
     output += import_functions::get_QString_vector_vector(langWords.get_noun_list(), 3);
     output += import_functions::get_QString_vector_vector(langWords.get_adjective_list(), 2);
     output += import_functions::get_QString_vector_vector(langWords.get_verb_list(), 3);

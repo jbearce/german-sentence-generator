@@ -51,22 +51,22 @@ vector<vector<QString>> import_functions::import_file(QString& input) {
 
 std::vector<std::vector<QString>> import_functions::get_matches(vector<vector<QString>>& input, QString matchVal, int matchPos) {
     vector<vector<QString>> output;
-    int loopSize = input.size();
+    int loopSize = int(input.size());
     for(int i = 0; i < loopSize; ++i) {
-        if (matchVal == input[i][matchPos]) {
-            output.push_back(input[i]);
+        if (matchVal == input[u_int(i)][u_int(matchPos)]) {
+            output.push_back(input[u_int(i)]);
         }
     }
     return output;
 }
 
 QString import_functions::get_QString_vector_vector (vector<vector<QString>>& input) {
-    int loopSize = input.size();
+    int loopSize = int(input.size());
     QString output;
     for(int i = 0; i < loopSize; ++i) {
-        int innerLoopSize = input[i].size();
+        int innerLoopSize = int(input[u_int(i)].size());
         for(int j = 0; j < innerLoopSize; ++j) {
-            output += input[i][j];
+            output += input[u_int(i)][u_int(j)];
             if ((innerLoopSize -1) > j) {
                 output += ", ";
             }
@@ -78,19 +78,19 @@ QString import_functions::get_QString_vector_vector (vector<vector<QString>>& in
 
 QString import_functions::get_QString_vector_vector (std::vector<std::vector<QString>> input, int col) {
     QString output;
-    int numItems = input.size();
+    int numItems = int(input.size());
     for(int i = 0; i < numItems; ++i) {
-        if (input[i].size() >= col){
-            output += input[i][col] + "\n";
+        if (int(input[u_int(i)].size()) >= col){
+            output += input[u_int(i)][u_int(col)] + "\n";
         }
     }
     return output;
 }
 
 std::vector<std::vector<QString>> import_functions::remove_invalid_entries(vector<vector<QString>> input, int expectedEntrySize) {
-    int loopSize = input.size();
+    int loopSize = int(input.size());
     for(int i = 0; i < loopSize; ++i) {
-        if ((expectedEntrySize +1) != input[i].size()) {
+        if ((expectedEntrySize +1) != int(input[u_int(i)].size())) {
             input.erase(input.begin() + i);
         }
     }
@@ -98,10 +98,10 @@ std::vector<std::vector<QString>> import_functions::remove_invalid_entries(vecto
 }
 
 QString import_functions::get_QString_vector (std::vector<QString>& input) {
-    int loopSize = input.size();
+    int loopSize = int(input.size());
     QString output;
     for (int i = 0; i < loopSize; ++i) {
-        output += input[i] + "\n";
+        output += input[u_int(i)] + "\n";
     }
     return output;
 }

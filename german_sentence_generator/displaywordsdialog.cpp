@@ -13,10 +13,6 @@ DisplayWordsDialog::~DisplayWordsDialog()
     delete ui;
 }
 
-void DisplayWordsDialog::setSentence(sentence& input) {
-    mySentence = input;
-}
-
 void DisplayWordsDialog::setDisplay(QString input, int displayNum) {
     if (0 == displayNum) {
         ui->textBrowserGerman->setText(input);
