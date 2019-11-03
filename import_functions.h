@@ -12,7 +12,7 @@ struct language {
  * Function Prototypes
 \**********************/
 // strips spaces on the beginning/end of the input string, but not encapsulated spaces
-string strip_spaces(std::string&);
+std::string strip_spaces(std::string&);
 
 // creates a simple vector from an input, split by a customizable delimeter. 
 // Spaces around delimeters are discarded.
